@@ -1,2 +1,2 @@
-# FakeAppList
-An Android App(xposed) , fake installed or running application list for BAT's application.
+# MyPrivacy
+An Android App(xposed) , fake information like installed or running application list and location for BAT's application.
