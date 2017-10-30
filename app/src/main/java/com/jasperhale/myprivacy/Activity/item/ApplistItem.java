@@ -2,6 +2,8 @@ package com.jasperhale.myprivacy.Activity.item;
 
 
 import android.databinding.Bindable;
+import android.graphics.drawable.Drawable;
+import android.view.View;
 
 
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
@@ -19,11 +21,13 @@ public class ApplistItem extends BaseItem implements BindingAdapterItem{
         return R.layout.item_applist;
     }
 
-    public ApplistItem(String AppId){
+    public ApplistItem(String AppId,Drawable AppIcon){
         this.AppId = AppId;
+        this.AppIcon = AppIcon;
     }
 
     private String AppId;
+    private Drawable AppIcon;
 
     @Bindable
     public String getAppId(){
@@ -34,5 +38,16 @@ public class ApplistItem extends BaseItem implements BindingAdapterItem{
         this.AppId = AppId;
         notifyPropertyChanged(BR.appId);
     }
+
+    @Bindable
+    public Drawable getAppIcon(){
+        AppIcon.setBounds(0,0,5,5);
+        return AppIcon;
+    }
+    public void setAppIcon(Drawable AppIcon){
+        this.AppIcon = AppIcon;
+        notifyPropertyChanged(BR.appIcon);
+    }
+
 
 }

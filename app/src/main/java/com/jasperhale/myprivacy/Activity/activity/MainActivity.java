@@ -1,5 +1,8 @@
 package com.jasperhale.myprivacy.Activity.activity;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +22,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    PackageManager packageManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +34,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        packageManager = this.getPackageManager();
         initListView();
 
     }
 
     private void initListView() {
         List<BindingAdapterItem> items = new ArrayList<>();
-        items.add(new ApplistItem("终于完成了"));
-        items.add(new ApplistItem("睡觉"));
-        items.add(new ApplistItem("commit"));
+        List<PackageInfo> packages = packageManager.getInstalledPackages(0);
+
+        for (PackageInfo packageInfo : packages){
+            ApplicationInfo appInfo = packageInfo.applicationInfo;
+            items.add(new ApplistItem(appInfo.packageName,
+                    packageManager.getApplicationIcon(appInfo)));
+        }
+
+
         BindingAdapter adapter = new BindingAdapter();
         adapter.setItems(items);
-        //这也是一个坑，经常忘了加LayoutManger导致东西Item无法显示，RecyclerView把测量，布局的工作甩给了LayoutManager
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         binding.recyclerView.setLayoutManager(manager);
         binding.recyclerView.setAdapter(adapter);
