@@ -53,13 +53,12 @@ public class mPresenter implements Presenter {
                     for (PackageInfo pac : t) {
                         items.add(model.creatApplistItem(pac));
                     }
-                    Log.d(TAG, "RefreshView: 2");
                     return items;
                 })
                 //主线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
-                    Log.d(TAG, "RefreshView: 3");
+                    Log.d(TAG, "RefreshView: "+ s.get(25).getViewType());
                     viewModel.setItems(s);
                     viewModel.RefreshRecycleView();
                 });
