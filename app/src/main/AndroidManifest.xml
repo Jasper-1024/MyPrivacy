@@ -3,13 +3,14 @@
     package="com.jasperhale.myprivacy">
 
     <application
+        android:name=".Activity.Base.MyApplicantion"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.activity.MainActivity">
+        <activity android:name=".Activity.ViewModel.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

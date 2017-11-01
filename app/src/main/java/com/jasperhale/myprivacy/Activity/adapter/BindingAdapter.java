@@ -20,13 +20,53 @@ public class BindingAdapter extends RecyclerView.Adapter<BindingAdapter.BindingH
 
     List<BindingAdapterItem> items = new ArrayList<>();
 
+    //获取List<BindingAdapterItem> 实例
     public List<BindingAdapterItem> getItems() {
         return items;
     }
 
+    //显示list<item>
     public void setItems(List<BindingAdapterItem> items) {
-        this.items = items;
+        clearItems();
+        addItems(items);
     }
+
+    //显示单个item
+    public void setItem(BindingAdapterItem item) {
+        clearItems();
+        addItem(item);
+    }
+
+    //添加item
+    public void addItem(BindingAdapterItem item) {
+        items.add(item);
+    }
+
+    //指定位置添加item
+    public void addItem(BindingAdapterItem item, int position) {
+        items.add(position, item);
+    }
+
+    //添加list<item>
+    public void addItems(List<BindingAdapterItem> items) {
+        this.items.addAll(items);
+    }
+
+    //替换item
+    public void replaceItem(BindingAdapterItem item, int position) {
+        items.set(position, item);
+    }
+
+    //移除item
+    public void removeItem(BindingAdapterItem item) {
+        items.remove(item);
+    }
+
+    //清除item
+    public void clearItems() {
+        items.clear();
+    }
+
 
     /**
      * @return 返回的是adapter的view
