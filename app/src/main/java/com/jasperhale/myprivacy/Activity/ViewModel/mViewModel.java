@@ -1,14 +1,10 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
-import android.util.Log;
-
+import com.jasperhale.myprivacy.Activity.MainActicityinterface;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Created by ZHANG on 2017/10/31.
@@ -18,7 +14,7 @@ public class mViewModel implements ViewModel {
     //List<BindingAdapterItem> items = new ArrayList<>();
     BindingAdapter adapter = new BindingAdapter();
 
-    public mViewModel(Acticityinterface acticityinterface){
+    public mViewModel(MainActicityinterface acticityinterface){
         //初始化adapter绑定
         acticityinterface.initDataBinding(adapter);
     }

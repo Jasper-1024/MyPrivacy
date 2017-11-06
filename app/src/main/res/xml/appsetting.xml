@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory>
+        <!--android:title="@string/AppSetting_AppLIst"-->
+
+        <SwitchPreference
+            android:key="ShowSystemAppApp"
+            android:defaultValue="true"
+            android:title="禁止获取已安装应用"
+            />
+        <SwitchPreference
+            android:key="preRunningApplist"
+            android:title="禁止获取正在运行应用"
+            />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/AppSetting_Location">
+        <SwitchPreference
+            android:defaultValue="flase"
+            android:key="WifiConnectInformation"
+            android:summary="包括wifi名称、手机mac、局域网信息等"
+            android:title="允许获取已连接Wifi信息" />
+        <SwitchPreference
+            android:defaultValue="flase"
+            android:key="CellInformation"
+            android:summary="包括基站号cell、小区号lac"
+            android:title="允许获取基站信息" />
+    </PreferenceCategory>
+</PreferenceScreen>

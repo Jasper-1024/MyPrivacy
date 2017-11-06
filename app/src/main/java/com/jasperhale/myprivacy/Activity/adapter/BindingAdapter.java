@@ -99,9 +99,6 @@ public class BindingAdapter extends RecyclerView.Adapter<BindingAdapter.BindingH
 
         ViewDataBinding binding;
 
-        /**
-         * @param binding 可以看作是这个hodler代表的布局的马甲，getRoot()方法会返回整个holder的最顶层的view
-         */
         public BindingHolder(ViewDataBinding binding) {
             //
             super(binding.getRoot());

@@ -1,6 +1,7 @@
 package com.jasperhale.myprivacy.Activity.model;
 
 import android.content.pm.PackageInfo;
+import android.graphics.drawable.Drawable;
 
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.ApplistItem;
@@ -17,4 +18,5 @@ public interface Model {
 
     //转换创建ApplistItem
     public BindingAdapterItem creatApplistItem(PackageInfo packageInfo);
+
 }

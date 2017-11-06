@@ -1,11 +1,18 @@
 package com.jasperhale.myprivacy.Activity.item;
 
 
+import android.content.Context;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
+import android.widget.ImageView;
 
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.BR;
 import com.jasperhale.myprivacy.R;
@@ -49,5 +56,20 @@ public class ApplistItem extends BaseItem implements BindingAdapterItem{
         notifyPropertyChanged(BR.appIcon);
     }
 
+    @BindingAdapter("loadAppIcon")
+    public static void LoadDrawable(ImageView imageView, Drawable Icon) {
+        Context context = imageView.getContext();
+        //BitmapDrawable bd = (BitmapDrawable)Icon;
+        //Bitmap bitmap = bd.getBitmap();
+
+        RequestOptions options = new RequestOptions()
+                .error(Icon)
+                .placeholder(Icon);
+
+        Glide.with(context)
+                .load("")
+                .apply(options)
+                .into(imageView);
+    }
 
 }

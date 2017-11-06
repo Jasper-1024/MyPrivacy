@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="item"
             type="com.jasperhale.myprivacy.Activity.item.ApplistItem" />
+
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
 
         <ImageView
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:padding="8dp"
-            android:src="@{item.appIcon}" />
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="8dp"
+            app:loadAppIcon="@{item.appIcon}" />
 
         <TextView
             android:layout_width="wrap_content"

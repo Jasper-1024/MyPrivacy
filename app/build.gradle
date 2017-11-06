@@ -26,7 +26,9 @@ android {
 }
 
 dependencies {
+    implementation 'com.android.support:support-v4:26.1.0'
     compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'io.reactivex.rxjava2:rxjava:2.1.5'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.github.bumptech.glide:glide:4.2.0'

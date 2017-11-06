@@ -58,7 +58,6 @@ public class mPresenter implements Presenter {
                 //主线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
-                    Log.d(TAG, "RefreshView: "+ s.get(25).getViewType());
                     viewModel.setItems(s);
                     viewModel.RefreshRecycleView();
                 });
