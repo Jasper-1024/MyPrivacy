@@ -7,6 +7,7 @@
             name="item"
             type="com.jasperhale.myprivacy.Activity.item.ApplistItem" />
 
+
     </data>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,16 +18,20 @@
         android:paddingTop="10dp">
 
         <ImageView
+            android:id="@+id/ApplistIcon"
             android:layout_width="@android:dimen/app_icon_size"
             android:layout_height="@android:dimen/app_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
+            android:onClick="@{item.onClickListener::onClick}"
             app:loadAppIcon="@{item.appIcon}" />
 
         <TextView
+            android:id="@+id/ApplistPackageName"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
+            android:onClick="@{item.onClickListener::onClick}"
             android:padding="5dp"
             android:text="@{item.appId}" />
     </LinearLayout>

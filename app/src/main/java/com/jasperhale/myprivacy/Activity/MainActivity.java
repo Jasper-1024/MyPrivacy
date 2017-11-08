@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements MainActicityinter
 
     @Override
     public void onResume() {
-        //界面重新刷新
-        presenter.RefreshView();
+        //界面重新刷新 需要?
+        //presenter.RefreshView();
         super.onResume();
     }
 

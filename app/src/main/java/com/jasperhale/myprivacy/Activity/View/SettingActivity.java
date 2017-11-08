@@ -26,10 +26,6 @@ public class SettingActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        settingFragment = new SettingFragment();
-        getFragmentManager().beginTransaction()
-                .replace(R.id.setting_FrameLayout,settingFragment)
-                .commit();
     }
 
     //返回按钮
