@@ -21,6 +21,15 @@
                 app:popupTheme="@style/AppTheme.PopupOverlay" />
         </android.support.design.widget.AppBarLayout>
 
+        <FrameLayout
+            android:id="@+id/settingfragment"
+            app:layout_constraintTop_toBottomOf="@+id/setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+         </FrameLayout>
 
     </android.support.constraint.ConstraintLayout>
 

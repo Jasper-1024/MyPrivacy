@@ -20,6 +20,14 @@ public class SettingActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.setting_toolbar);
         toolbar.setTitle("设置");
         setSupportActionBar(toolbar);
+
+
+        settingFragment = new SettingFragment();
+        getFragmentManager().beginTransaction()
+                .replace(R.id.settingfragment,settingFragment)
+                .commit();
+
+
         //返回按钮
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

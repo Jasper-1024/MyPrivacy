@@ -35,7 +35,6 @@ public class mPresenter implements Presenter {
 
     @Override
     public void RefreshView() {
-        Log.d("log", "onCreate: presenter");
         Observable
                 .create(new ObservableOnSubscribe<List<PackageInfo>>() {
                             @Override

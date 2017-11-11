@@ -1,63 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.jasperhale.myprivacy.Activity.View.AppSettingActivity">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appsetting"
+    <data>
+
+        <variable
+            name="appsetting"
+            type="com.jasperhale.myprivacy.Activity.model.AppSetting" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="match_parent"
+        tools:context="com.jasperhale.myprivacy.Activity.View.AppSettingActivity">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/appsetting_toolbar"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appsetting"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-    </android.support.design.widget.AppBarLayout>
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.AppBarOverlay">
 
-    <LinearLayout
-        android:id="@+id/appsetting_applist"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/appsetting">
-        <TextView
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/appsetting_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+        </android.support.design.widget.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/appsetting_applist"
             android:layout_width="match_parent"
-            android:text="@string/AppSetting_AppLIst"
-            android:layout_height="wrap_content" />
-        <Switch
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/appsetting">
+
+            <TextView
+                app:layout_constraintTop_toBottomOf="@+id/appsetting"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="@string/AppSetting_AppLIst" />
+
+            <Switch
+                android:checked="@={appsetting.installedApp}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:text="禁止获取已安装应用" />
+
+            <Switch
+                android:checked="@={appsetting.runningApp}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:text="禁止获取正在运行服务" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="禁止获取已安装应用"/>
-        <Switch
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="禁止获取正在运行服务"/>
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/appsetting_applist">
-        <TextView
-            android:layout_width="match_parent"
-            android:text="@string/AppSetting_Location"
-            android:layout_height="wrap_content" />
-        <Switch
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="允许获取已连接Wifi信息"/>
-        <Switch
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="允许获取基站信息"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/appsetting_applist">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:text="@string/AppSetting_Location" />
+
+            <Switch
+                android:checked="@={appsetting.connectionWifi}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:text="允许获取已连接Wifi信息" />
+            <RelativeLayout
+                android:layout_width=""
+                android:layout_height=""></RelativeLayout>
+            <EditText
+                android:visibility="@{ appsetting.connectionWifi? View.GONE : View.VISIBLE}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@={appsetting.SSID}"
+                />
+
+            <Switch
+                android:checked="@={appsetting.cellInfo}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:text="允许获取基站信息" />
+        </LinearLayout>
 
 
-</android.support.constraint.ConstraintLayout>
+    </android.support.constraint.ConstraintLayout>
+</layout>

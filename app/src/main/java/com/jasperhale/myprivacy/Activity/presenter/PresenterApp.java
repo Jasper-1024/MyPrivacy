@@ -5,4 +5,5 @@ package com.jasperhale.myprivacy.Activity.presenter;
  */
 
 public interface PresenterApp {
+    public void initAppSetting();
 }
