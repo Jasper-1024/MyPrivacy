@@ -37,23 +37,23 @@
             app:layout_constraintTop_toBottomOf="@+id/appsetting">
 
             <TextView
-                app:layout_constraintTop_toBottomOf="@+id/appsetting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="8dp"
-                android:text="@string/AppSetting_AppLIst" />
+                android:text="@string/AppSetting_AppLIst"
+                app:layout_constraintTop_toBottomOf="@+id/appsetting" />
 
             <Switch
-                android:checked="@={appsetting.installedApp}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:checked="@={appsetting.installedApp}"
                 android:padding="8dp"
                 android:text="禁止获取已安装应用" />
 
             <Switch
-                android:checked="@={appsetting.runningApp}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:checked="@={appsetting.runningApp}"
                 android:padding="8dp"
                 android:text="禁止获取正在运行服务" />
         </LinearLayout>
@@ -72,25 +72,17 @@
                 android:text="@string/AppSetting_Location" />
 
             <Switch
-                android:checked="@={appsetting.connectionWifi}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:checked="@={appsetting.connectionWifi}"
                 android:padding="8dp"
                 android:text="允许获取已连接Wifi信息" />
-            <RelativeLayout
-                android:layout_width=""
-                android:layout_height=""></RelativeLayout>
-            <EditText
-                android:visibility="@{ appsetting.connectionWifi? View.GONE : View.VISIBLE}"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@={appsetting.SSID}"
-                />
+
 
             <Switch
-                android:checked="@={appsetting.cellInfo}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:checked="@={appsetting.cellInfo}"
                 android:padding="8dp"
                 android:text="允许获取基站信息" />
         </LinearLayout>
