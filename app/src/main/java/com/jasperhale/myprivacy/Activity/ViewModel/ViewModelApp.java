@@ -7,7 +7,7 @@ import com.jasperhale.myprivacy.Activity.model.AppSetting;
  */
 
 public interface ViewModelApp {
-    public AppSetting getAppSetting();
-    public void setAppSetting(AppSetting appSetting);
-    public String getPackageName();
+    AppSetting getAppSetting();
+    void setAppSetting(AppSetting appSetting);
+    String getPackageName();
 }

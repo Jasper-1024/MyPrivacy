@@ -7,5 +7,5 @@ import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
  */
 
 public interface MainActicityinterface {
-    public void initDataBinding(BindingAdapter adapter);
+    void initDataBinding(BindingAdapter adapter);
 }

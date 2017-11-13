@@ -12,7 +12,7 @@ import java.util.List;
 
 public class mViewModel implements ViewModel {
     //List<BindingAdapterItem> items = new ArrayList<>();
-    BindingAdapter adapter = new BindingAdapter();
+    private BindingAdapter adapter = new BindingAdapter();
 
     public mViewModel(MainActicityinterface acticityinterface){
         //初始化adapter绑定

@@ -8,7 +8,7 @@ import com.jasperhale.myprivacy.Activity.model.AppSetting;
 
 public class mViewModeApp implements ViewModelApp{
     private AppSetting appSetting;
-    private String PackageName;
+    private final String PackageName;
     /*public void mViewModeApp(AppSetting appSetting){
         this.appSetting = appSetting;
     }*/

@@ -1,7 +1,6 @@
 package com.jasperhale.myprivacy.Activity.item;
 
 import android.databinding.BaseObservable;
-import android.databinding.BindingAdapter;
 import android.view.View;
 
 /**

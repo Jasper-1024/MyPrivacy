@@ -18,7 +18,7 @@ import java.util.List;
 public class BindingAdapter extends RecyclerView.Adapter<BindingAdapter.BindingHolder> {
 
 
-    List<BindingAdapterItem> items = new ArrayList<>();
+    private List<BindingAdapterItem> items = new ArrayList<>();
 
     //获取List<BindingAdapterItem> 实例
     public List<BindingAdapterItem> getItems() {

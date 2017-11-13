@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">MyPrivacy</string>
     <string name="ShowSystemApp">SystemApp</string>
+    <string name="xposeddescription">Control those permissions that Appops can not override</string>
     <string name="about">about</string>
     <string name="setting">setting</string>
     <string name="title_activity_app_settings">Settings</string>
@@ -8,5 +9,6 @@
     <string name="AppSetting_AppLIst">AppLIst</string>
     <string name="AppSetting_Applist_title">InstalledApplist</string>
     <string name="AppSetting_Applist_Description">Description</string>
+    <string name="appsetting_Image_contentDescription">MyPrivacy</string>
 
 </resources>

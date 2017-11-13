@@ -1,7 +1,6 @@
 package com.jasperhale.myprivacy.Activity.presenter;
 
 import android.content.pm.PackageInfo;
-import android.util.Log;
 
 import com.jasperhale.myprivacy.Activity.ViewModel.ViewModel;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
@@ -12,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.content.ContentValues.TAG;
 
 
 /**
@@ -25,8 +22,8 @@ import static android.content.ContentValues.TAG;
  */
 
 public class mPresenter implements Presenter {
-    private Model model;
-    private ViewModel viewModel;
+    private final Model model;
+    private final ViewModel viewModel;
 
     public mPresenter(ViewModel viewModel) {
         this.viewModel = viewModel;
@@ -36,15 +33,26 @@ public class mPresenter implements Presenter {
     @Override
     public void RefreshView() {
         Observable
-                .create(new ObservableOnSubscribe<List<PackageInfo>>() {
-                            @Override
-                            public void subscribe(ObservableEmitter<List<PackageInfo>> emitter) throws Exception {
-                                emitter.onNext(model.getPackages());
-                            }
-                        }
+                .create((ObservableOnSubscribe<List<PackageInfo>>) emitter -> emitter.onNext(model.getPackages())
                 )
                 //新线程
                 .subscribeOn(Schedulers.newThread())
+                //cpu密集
+                .observeOn(Schedulers.computation())
+                .map(packages -> {
+                    if (!model.ShowSystemApp()) {
+                        //剔除系统应用
+                        List<PackageInfo> items = new ArrayList<>();
+                        for (PackageInfo pac : packages) {
+                            if (!model.isSystemApp(pac)) {
+                                items.add(pac);
+                            }
+                        }
+                        return items;
+                    } else {
+                        return packages;
+                    }
+                })
                 //io密集
                 .observeOn(Schedulers.io())
                 .map(t -> {

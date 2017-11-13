@@ -2,11 +2,10 @@ package com.jasperhale.myprivacy.Activity.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
-
 import java.io.File;
+
+import de.robv.android.xposed.XposedBridge;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -14,27 +13,29 @@ import static android.content.Context.MODE_PRIVATE;
  * Created by ZHANG on 2017/11/11.
  */
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 public class mModelApp implements ModelApp {
     //键值
-    private SharedPreferences preferences;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences preferences;
+    private final SharedPreferences.Editor editor;
 
     public mModelApp(){
-        preferences = getPreferencesAndKeepItReadable(MyApplicantion.getContext(), "AppSetting");
+        preferences = MyApplicantion.getContext().getSharedPreferences("AppSetting", Context.MODE_WORLD_READABLE);
+        //preferences = getPreferencesAndKeepItReadable(MyApplicantion.getContext(), "AppSetting");
         //preferences = MyApplicantion.getContext().getSharedPreferences("AppSetting", MODE_WORLD_READABLE);
         editor = preferences.edit();
     }
     @Override
     public void getAppSetting(String packageName, AppSetting appSetting) {
-        appSetting.setInstalledApp(getSharedPreferences("InstalledApp"));
-        appSetting.setRunningApp(getSharedPreferences("RunningApp"));
+        appSetting.setInstalledApp(getSharedPreferences(packageName+"InstalledApp"));
+        appSetting.setRunningApp(getSharedPreferences(packageName+"RunningApp"));
 
-        appSetting.setConnectionWifi(getSharedPreferences("ConnectionWifi"));
-        appSetting.setSSID(getSharedPreferences("SSID", "1900"));
-        appSetting.setMac(getSharedPreferences("Mac", "A5:A2:6F:35:D0:CF"));
-        appSetting.setNetworkId(getSharedPreferences("NetworkId", -1));
+        appSetting.setConnectionWifi(getSharedPreferences(packageName+"ConnectionWifi",false));
+        appSetting.setSSID(getSharedPreferences(packageName+"SSID", "1900"));
+        appSetting.setMac(getSharedPreferences(packageName+"Mac", "A5:A2:6F:35:D0:CF"));
+        appSetting.setNetworkId(getSharedPreferences(packageName+"NetworkId", -1));
 
-        appSetting.setCellInfo(getSharedPreferences("CellInfo"));
+        appSetting.setCellInfo(getSharedPreferences(packageName+"CellInfo"));
 
     }
 
@@ -51,11 +52,6 @@ public class mModelApp implements ModelApp {
         setSharedPreferences(packageName + "CellInfo", appSetting.getCellInfo());
     }
 
-    //获取设置键值
-    private boolean getPreferences(String key) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(MyApplicantion.getContext());
-        return prefs.getBoolean(key, false);
-    }
 
     //设置普通键值
     private void setSharedPreferences(String key, boolean value) {
@@ -87,7 +83,7 @@ public class mModelApp implements ModelApp {
         return preferences.getInt(key, i);
     }
 
-    public static SharedPreferences getPreferencesAndKeepItReadable(Context ctx, String prefName) {
+    private static SharedPreferences getPreferencesAndKeepItReadable(Context ctx, String prefName) {
         SharedPreferences prefs = ctx.getSharedPreferences(prefName, MODE_PRIVATE);
         File prefsFile = new File(ctx.getFilesDir() + "/../shared_prefs/" + prefName + ".xml");
         prefsFile.setReadable(true, false);

@@ -3,7 +3,6 @@ package com.jasperhale.myprivacy.Activity;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +11,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 
+import com.jasperhale.myprivacy.Activity.Base.BaseActivity;
 import com.jasperhale.myprivacy.Activity.View.SettingActivity;
 import com.jasperhale.myprivacy.Activity.ViewModel.mViewModel;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
@@ -20,7 +20,7 @@ import com.jasperhale.myprivacy.Activity.presenter.mPresenter;
 import com.jasperhale.myprivacy.R;
 import com.jasperhale.myprivacy.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity implements MainActicityinterface {
+public class MainActivity extends BaseActivity implements MainActicityinterface {
 
     private ActivityMainBinding binding;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements MainActicityinter
 
     @Override
     public void onResume() {
-        //界面重新刷新 需要?
+        //界面重新刷新
         //presenter.RefreshView();
         super.onResume();
     }

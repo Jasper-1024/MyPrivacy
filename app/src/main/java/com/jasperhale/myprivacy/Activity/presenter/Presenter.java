@@ -5,5 +5,5 @@ package com.jasperhale.myprivacy.Activity.presenter;
  */
 
 public interface Presenter {
-    public void RefreshView();
+    void RefreshView();
 }

@@ -10,32 +10,32 @@ import java.util.List;
 
 public interface ViewModel {
     //获取List<BindingAdapterItem> 实例
-    public List<BindingAdapterItem> getItems();
+    List<BindingAdapterItem> getItems();
 
     //显示list<item>
-    public void setItems(List<BindingAdapterItem> items);
+    void setItems(List<BindingAdapterItem> items);
 
     //显示单个item
-    public void setItem(BindingAdapterItem item);
+    void setItem(BindingAdapterItem item);
 
     //添加item
-    public void addItem(BindingAdapterItem item);
+    void addItem(BindingAdapterItem item);
 
     //指定位置添加item
-    public void addItem(BindingAdapterItem item, int position);
+    void addItem(BindingAdapterItem item, int position);
 
     //添加list<item>
-    public void addItems(List<BindingAdapterItem> items);
+    void addItems(List<BindingAdapterItem> items);
 
     //替换item
-    public void replaceItem(BindingAdapterItem item, int position);
+    void replaceItem(BindingAdapterItem item, int position);
 
     //移除item
-    public void removeItem(BindingAdapterItem item);
+    void removeItem(BindingAdapterItem item);
 
     //清除item
-    public void clearItems();
+    void clearItems();
 
     //notifyDataSetChanged
-    public void RefreshRecycleView();
+    void RefreshRecycleView();
 }
