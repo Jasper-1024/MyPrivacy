@@ -1,5 +1,6 @@
 package com.jasperhale.myprivacy.Activity.model;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
@@ -20,6 +21,7 @@ public class mModelApp implements ModelApp {
     private final SharedPreferences.Editor editor;
 
     public mModelApp(){
+        //preferences = MyApplicantion.getContext().getSharedPreferences(MyApplicantion.getContext().getPackageName() + "_preferences", Activity.MODE_WORLD_READABLE);
         preferences = MyApplicantion.getContext().getSharedPreferences("AppSetting", Context.MODE_WORLD_READABLE);
         //preferences = getPreferencesAndKeepItReadable(MyApplicantion.getContext(), "AppSetting");
         //preferences = MyApplicantion.getContext().getSharedPreferences("AppSetting", MODE_WORLD_READABLE);
@@ -27,29 +29,29 @@ public class mModelApp implements ModelApp {
     }
     @Override
     public void getAppSetting(String packageName, AppSetting appSetting) {
-        appSetting.setInstalledApp(getSharedPreferences(packageName+"InstalledApp"));
-        appSetting.setRunningApp(getSharedPreferences(packageName+"RunningApp"));
+        appSetting.setInstalledApp(getSharedPreferences(packageName+"/InstalledApp"));
+        appSetting.setRunningApp(getSharedPreferences(packageName+"/RunningApp"));
 
-        appSetting.setConnectionWifi(getSharedPreferences(packageName+"ConnectionWifi",false));
-        appSetting.setSSID(getSharedPreferences(packageName+"SSID", "1900"));
-        appSetting.setMac(getSharedPreferences(packageName+"Mac", "A5:A2:6F:35:D0:CF"));
-        appSetting.setNetworkId(getSharedPreferences(packageName+"NetworkId", -1));
+        appSetting.setConnectionWifi(getSharedPreferences(packageName+"/ConnectionWifi",false));
+        appSetting.setSSID(getSharedPreferences(packageName+"/SSID", "1900"));
+        appSetting.setMac(getSharedPreferences(packageName+"/Mac", "A5:A2:6F:35:D0:CF"));
+        appSetting.setNetworkId(getSharedPreferences(packageName+"/NetworkId", -1));
 
-        appSetting.setCellInfo(getSharedPreferences(packageName+"CellInfo"));
+        appSetting.setCellInfo(getSharedPreferences(packageName+"/CellInfo"));
 
     }
 
     @Override
     public void setAppSetting(String packageName, AppSetting appSetting) {
-        setSharedPreferences(packageName + "InstalledApp", appSetting.getInstalledApp());
-        setSharedPreferences(packageName + "RunningApp", appSetting.getRunningApp());
+        setSharedPreferences(packageName + "/InstalledApp", appSetting.getInstalledApp());
+        setSharedPreferences(packageName + "/RunningApp", appSetting.getRunningApp());
 
-        setSharedPreferences(packageName + "ConnectionWifi", appSetting.getConnectionWifi());
-        setSharedPreferences(packageName + "SSID", appSetting.getSSID());
-        setSharedPreferences(packageName + "Mac", appSetting.getMac());
-        setSharedPreferences(packageName + "NetworkId", appSetting.getNetworkId());
+        setSharedPreferences(packageName + "/ConnectionWifi", appSetting.getConnectionWifi());
+        setSharedPreferences(packageName + "/SSID", appSetting.getSSID());
+        setSharedPreferences(packageName + "/Mac", appSetting.getMac());
+        setSharedPreferences(packageName + "/NetworkId", appSetting.getNetworkId());
 
-        setSharedPreferences(packageName + "CellInfo", appSetting.getCellInfo());
+        setSharedPreferences(packageName + "/CellInfo", appSetting.getCellInfo());
     }
 
 
