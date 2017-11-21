@@ -79,6 +79,9 @@ public class MainActivity extends BaseActivity implements MainActicityinterface 
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         binding.recyclerView.setLayoutManager(manager);
         binding.recyclerView.setAdapter(adapter);
+        binding.recyclerView.setNestedScrollingEnabled(false);
+        binding.recyclerView.setHasFixedSize(true);
+        binding.recyclerView.getLayoutManager().setAutoMeasureEnabled(true);
     }
 
     @Override

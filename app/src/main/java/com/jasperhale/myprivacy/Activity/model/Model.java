@@ -2,6 +2,8 @@ package com.jasperhale.myprivacy.Activity.model;
 
 import android.content.pm.PackageInfo;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
+import com.jasperhale.myprivacy.Activity.item.ApplistItem;
+
 import java.util.List;
 
 /**
@@ -13,7 +15,7 @@ public interface Model {
     List<PackageInfo> getPackages();
 
     //转换创建ApplistItem
-    BindingAdapterItem creatApplistItem(PackageInfo packageInfo);
+    ApplistItem creatApplistItem(PackageInfo packageInfo);
 
     //是否显示系统应用
     boolean ShowSystemApp();

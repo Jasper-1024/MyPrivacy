@@ -1,6 +1,7 @@
 package com.jasperhale.myprivacy.Activity.model;
 
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -11,9 +12,11 @@ import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
-
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -22,13 +25,14 @@ import java.util.List;
 
 public class mModel implements Model {
 
+
     @Override
     public List<PackageInfo> getPackages() {
         return MyApplicantion.getContext().getPackageManager().getInstalledPackages(0);
     }
 
     @Override
-    public BindingAdapterItem creatApplistItem(PackageInfo packageInfo) {
+    public ApplistItem creatApplistItem(PackageInfo packageInfo) {
         ApplicationInfo appInfo = packageInfo.applicationInfo;
         return new ApplistItem(appInfo.packageName, appInfo.loadLabel(MyApplicantion.getContext().getPackageManager()).toString(),
                 appInfo.loadIcon(MyApplicantion.getContext().getPackageManager()));

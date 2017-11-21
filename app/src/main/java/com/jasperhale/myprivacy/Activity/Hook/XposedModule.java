@@ -1,17 +1,15 @@
 package com.jasperhale.myprivacy.Activity.Hook;
 
 
-import android.content.Intent;
-
-import com.jasperhale.myprivacy.Activity.Xposed_user;
+import com.jasperhale.myprivacy.Activity.Base.Xposed_user;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
-import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 
 /**
@@ -38,22 +36,18 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
         } else {
             prefs.reload();
         }
-        XposedBridge.log("MyPrivacy" + lpparam.packageName);
 
-        if (prefs.getBoolean(lpparam.packageName + "/InstalledApp", false)) {
+        //XposedBridge.log("MyPrivacy" + lpparam.packageName);
+        InstalledApp.getInstalledApp(lpparam,prefs).handle();
 
-            XposedBridge.log("MyPrivacy hook " + lpparam.packageName);
+        //XposedBridge.log("MyPrivacy hook " + "/RunningApp");
+        RunningApp.getRunningApp(lpparam,prefs).handle();
 
-            Class contextWrapperClass = XposedHelpers.findClass("android.content.ContextWrapper", lpparam.classLoader);
-            XposedHelpers.findAndHookMethod(contextWrapperClass, "startService", Intent.class, new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    param.setResult(null);
-                    return;
-                }
-            });
+        //XposedBridge.log("MyPrivacy hook " + "/ConnectionWifi");
+        ConnectionWifi.getConnectionWifi(lpparam,prefs).handle();
 
-        }
+
+
     }
 
 }

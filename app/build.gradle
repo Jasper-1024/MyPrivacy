@@ -27,12 +27,19 @@ android {
 
 dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
+    //UI
     compile 'com.android.support:recyclerview-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
+    //glide图片缓存库
+    compile 'com.github.bumptech.glide:glide:4.2.0'
+    //rxjava
     compile 'io.reactivex.rxjava2:rxjava:2.1.5'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    compile 'com.github.bumptech.glide:glide:4.2.0'
+    //汉字转拼音
+    compile 'com.github.promeg:tinypinyin:2.0.3'
 
+    compile 'com.github.promeg:tinypinyin-lexicons-android-cncity:2.0.3'
+    //xposed
     provided 'de.robv.android.xposed:api:82'
     //如果需要引入文档，方便查看的话
     provided 'de.robv.android.xposed:api:82:sources'

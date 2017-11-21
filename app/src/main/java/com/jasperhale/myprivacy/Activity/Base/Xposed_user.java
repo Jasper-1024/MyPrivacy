@@ -1,4 +1,4 @@
-package com.jasperhale.myprivacy.Activity;
+package com.jasperhale.myprivacy.Activity.Base;
 
 /**
  * Created by ZHANG on 2017/11/13.

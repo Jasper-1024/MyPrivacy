@@ -3,8 +3,13 @@ package com.jasperhale.myprivacy.Activity.model;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.view.ViewOutlineProvider;
+
+import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
+
 import java.io.File;
+import java.io.IOException;
 
 import de.robv.android.xposed.XposedBridge;
 
@@ -20,24 +25,25 @@ public class mModelApp implements ModelApp {
     private final SharedPreferences preferences;
     private final SharedPreferences.Editor editor;
 
-    public mModelApp(){
+    public mModelApp() {
         //preferences = MyApplicantion.getContext().getSharedPreferences(MyApplicantion.getContext().getPackageName() + "_preferences", Activity.MODE_WORLD_READABLE);
         preferences = MyApplicantion.getContext().getSharedPreferences("AppSetting", Context.MODE_WORLD_READABLE);
-        //preferences = getPreferencesAndKeepItReadable(MyApplicantion.getContext(), "AppSetting");
+        //preferences = getPreferences(MyApplicantion.getContext(), "AppSetting");
         //preferences = MyApplicantion.getContext().getSharedPreferences("AppSetting", MODE_WORLD_READABLE);
         editor = preferences.edit();
     }
+
     @Override
     public void getAppSetting(String packageName, AppSetting appSetting) {
-        appSetting.setInstalledApp(getSharedPreferences(packageName+"/InstalledApp"));
-        appSetting.setRunningApp(getSharedPreferences(packageName+"/RunningApp"));
+        appSetting.setInstalledApp(getSharedPreferences(packageName + "/InstalledApp"));
+        appSetting.setRunningApp(getSharedPreferences(packageName + "/RunningApp"));
 
-        appSetting.setConnectionWifi(getSharedPreferences(packageName+"/ConnectionWifi",false));
-        appSetting.setSSID(getSharedPreferences(packageName+"/SSID", "1900"));
-        appSetting.setMac(getSharedPreferences(packageName+"/Mac", "A5:A2:6F:35:D0:CF"));
-        appSetting.setNetworkId(getSharedPreferences(packageName+"/NetworkId", -1));
+        appSetting.setConnectionWifi(getSharedPreferences(packageName + "/ConnectionWifi", false));
+        appSetting.setSSID(getSharedPreferences(packageName + "/SSID", "1900"));
+        appSetting.setMac(getSharedPreferences(packageName + "/Mac", "A5:A2:6F:35:D0:CF"));
+        appSetting.setNetworkId(getSharedPreferences(packageName + "/NetworkId", -1));
 
-        appSetting.setCellInfo(getSharedPreferences(packageName+"/CellInfo"));
+        appSetting.setCellInfo(getSharedPreferences(packageName + "/CellInfo"));
 
     }
 
@@ -58,22 +64,25 @@ public class mModelApp implements ModelApp {
     //设置普通键值
     private void setSharedPreferences(String key, boolean value) {
         editor.putBoolean(key, value).commit();
+        MakeFileReadable(MyApplicantion.getContext(),"AppSetting");
     }
 
     private void setSharedPreferences(String key, String value) {
         editor.putString(key, value).commit();
+        MakeFileReadable(MyApplicantion.getContext(),"AppSetting");
     }
 
     private void setSharedPreferences(String key, int value) {
         editor.putInt(key, value).commit();
+        MakeFileReadable(MyApplicantion.getContext(),"AppSetting");
     }
 
     //获取普通键值
     private boolean getSharedPreferences(String key) {
         return preferences.getBoolean(key, false);
     }
-    //获取普通键值
-    private boolean getSharedPreferences(String key,boolean bool) {
+
+    private boolean getSharedPreferences(String key, boolean bool) {
         return preferences.getBoolean(key, bool);
     }
 
@@ -85,10 +94,19 @@ public class mModelApp implements ModelApp {
         return preferences.getInt(key, i);
     }
 
-    private static SharedPreferences getPreferencesAndKeepItReadable(Context ctx, String prefName) {
+    private static SharedPreferences getPreferences(Context ctx, String prefName) {
         SharedPreferences prefs = ctx.getSharedPreferences(prefName, MODE_PRIVATE);
-        File prefsFile = new File(ctx.getFilesDir() + "/../shared_prefs/" + prefName + ".xml");
-        prefsFile.setReadable(true, false);
         return prefs;
+    }
+
+    private static void MakeFileReadable(Context ctx, String prefName){
+  /*
+        File prefsDir = new File(ctx.getApplicationInfo().dataDir, "shared_prefs");
+        File prefsFile = new File(prefsDir, prefName + ".xml");
+        if (prefsFile.exists()) {
+            prefsFile.setReadable(true, false);
+            LogUtil.d("mModelApp", "FileReadable");
+        }
+ */
     }
 }
