@@ -35,25 +35,19 @@ public class RunningApp {
         if (prefs.getBoolean(lpparam.packageName + "/RunningApp", false)) {
 
             XposedBridge.log("MyPrivacy hook " + lpparam.packageName + "/RunningApp");
-/*
-            findAndHookMethod("android.app.ActivityManager", lpparam.classLoader, "getRunningAppProcesses", int.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    List<ActivityManager.RunningAppProcessInfo> processes = new ArrayList<>();
-                    param.setResult(processes); // 将返回值设置为干净列表
-                }
-            });
-*/
-            XposedBridge.log("MyPrivacy hook " + lpparam.packageName + "/RunningApp");
-            findAndHookMethod("android.app.ActivityManager", lpparam.classLoader, "getRunningServices", int.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    List<ActivityManager.RunningServiceInfo> processes = new ArrayList<>();
-                    processes.clear();
-                    param.setResult(processes);
-                }
-            });
-        }
+            hook_getRunningServices();
 
+        }
+    }
+
+    private static void hook_getRunningServices() {
+        findAndHookMethod("android.app.ActivityManager", lpparam.classLoader, "getRunningServices", int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<ActivityManager.RunningServiceInfo> processes = new ArrayList<>();
+                processes.clear();
+                param.setResult(processes);
+            }
+        });
     }
 }

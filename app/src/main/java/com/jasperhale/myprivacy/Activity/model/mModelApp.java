@@ -44,6 +44,10 @@ public class mModelApp implements ModelApp {
         appSetting.setNetworkId(getSharedPreferences(packageName + "/NetworkId", -1));
 
         appSetting.setCellInfo(getSharedPreferences(packageName + "/CellInfo"));
+        appSetting.setMcc(getSharedPreferences(packageName + "/Mcc", 460));
+        appSetting.setMnc(getSharedPreferences(packageName + "/Mnc", 1));
+        appSetting.setCid(getSharedPreferences(packageName + "/Cid", 41070));
+        appSetting.setLac(getSharedPreferences(packageName + "/Lac", 8309067));
 
     }
 
@@ -58,6 +62,12 @@ public class mModelApp implements ModelApp {
         setSharedPreferences(packageName + "/NetworkId", appSetting.getNetworkId());
 
         setSharedPreferences(packageName + "/CellInfo", appSetting.getCellInfo());
+        setSharedPreferences(packageName + "/Mcc", appSetting.getMcc());
+        setSharedPreferences(packageName + "/Mnc", appSetting.getMnc());
+        setSharedPreferences(packageName + "/Cid", appSetting.getCid());
+        setSharedPreferences(packageName + "/Lac", appSetting.getLac());
+
+
     }
 
 

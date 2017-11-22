@@ -40,94 +40,31 @@ public class InstalledApp {
         if (prefs.getBoolean(lpparam.packageName + "/InstalledApp", false)) {
 
             XposedBridge.log("MyPrivacy hook " + lpparam.packageName + "/InstalledApp");
-
-
-            findAndHookMethod("android.app.ApplicationPackageManager", lpparam.classLoader, "getInstalledApplications", int.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    List<ApplicationInfo> xp = new ArrayList<>();
-                    xp.clear();
-                    param.setResult(xp);
-                }
-            });
-            XposedBridge.log("MyPrivacy hook " + lpparam.packageName + "/InstalledApp");
-            findAndHookMethod("android.app.ApplicationPackageManager", lpparam.classLoader, "getInstalledPackages", int.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    List<PackageInfo> xp = new ArrayList<>();
-                    xp.clear();
-                    param.setResult(xp);
-
-                }
-            });
-/*
-            Class<?> PackageMager = XposedHelpers.findClass("android.app.ApplicationPackageManager", lpparam.classLoader);
-
-            XposedBridge.hookAllMethods(PackageMager, "getApplicationInfo", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    modifyHookedMethodArguments(param);
-                }
-            });
-
-
-            XposedBridge.hookAllMethods(PackageMager, "getPackageInfo", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                    super.beforeHookedMethod(param);
-                    logDebug("getPackageInfo");
-                    modifyHookedMethodArguments(param);
-                }
-            });
-
-            XposedBridge.hookAllMethods(PackageMager, "getInstalledApplications", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    logDebug("getInstalledApplications");
-                    modifyHookedMethodResult(param, new ApplicationInfoData());
-                }
-            });
-
-            XposedBridge.hookAllMethods(PackageMager, "getInstalledPackages", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    logDebug("getInstalledPackages");
-                    modifyHookedMethodResult(param, new PackageInfoData());
-                }
-            });
-
-            XposedBridge.hookAllMethods(PackageMager, "getPackagesForUid", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    logDebug("getPackagesForUid");
-                    modifyHookedMethodResult(param, new PackageNameStringData());
-                }
-            });
-
-            XposedBridge.hookAllMethods(PackageMager, "queryIntentActivities", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    logDebug("queryIntentActivities");
-                    modifyHookedMethodResult(param, new ResolveInfoData());
-                }
-            });
-
-            XposedBridge.hookAllMethods(PackageMager, "queryIntentActivityOptions", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    super.afterHookedMethod(param);
-                    logDebug("queryIntentActivityOptions");
-                    modifyHookedMethodResult(param, new ResolveInfoData());
-
-                }
-            });
-*/
-
+            hook_getInstalledApplications();
+            hook_getInstalledPackages();
         }
+    }
+
+    private static void hook_getInstalledApplications() {
+        findAndHookMethod("android.app.ApplicationPackageManager", lpparam.classLoader, "getInstalledApplications", int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<ApplicationInfo> xp = new ArrayList<>();
+                xp.clear();
+                param.setResult(xp);
+            }
+        });
+    }
+
+    private static void hook_getInstalledPackages() {
+        findAndHookMethod("android.app.ApplicationPackageManager", lpparam.classLoader, "getInstalledPackages", int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<PackageInfo> xp = new ArrayList<>();
+                xp.clear();
+                param.setResult(xp);
+
+            }
+        });
     }
 }

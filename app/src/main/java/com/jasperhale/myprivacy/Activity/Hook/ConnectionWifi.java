@@ -15,6 +15,7 @@ import java.util.List;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
@@ -27,6 +28,8 @@ import static de.robv.android.xposed.XposedBridge.log;
 public class ConnectionWifi {
     private static XC_LoadPackage.LoadPackageParam lpparam;
     private static XSharedPreferences prefs;
+    private static String Mac;
+    private static String SSID;
 
     public static ConnectionWifi getConnectionWifi(XC_LoadPackage.LoadPackageParam lpparam, XSharedPreferences prefs) {
         ConnectionWifi.lpparam = lpparam;
@@ -34,49 +37,8 @@ public class ConnectionWifi {
         return ConnectionWifiHolder.connectionWifi;
     }
 
-    private static class ConnectionWifiHolder {
-        private static final ConnectionWifi connectionWifi = new ConnectionWifi();
-    }
-
-    public void handle() {
-        if (prefs.getBoolean(lpparam.packageName + "/ConnectionWifi", false)) {
-
-            log("MyPrivacy hook " + lpparam.packageName + "/ConnectionWifi");
-
-            HookWifiGetConnectionInfo(WifiManager.class, "getConnectionInfo",
-                    "",
-                    prefs.getString(lpparam.packageName + "/Mac", ""),
-                    prefs.getString(lpparam.packageName + "/SSID", ""),
-                    null);
-/*
-            XposedHelpers.findAndHookMethod("android.net.wifi.WifiInfo", lpparam.classLoader, "getMacAddress", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    param.setResult(prefs.getString(lpparam.packageName + "/Mac", ""));
-                }
-            });
-
-            XposedHelpers.findAndHookMethod("android.net.wifi.WifiInfo", lpparam.classLoader, "getSSID", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    param.setResult(prefs.getString(lpparam.packageName + "/SSID", ""));
-                }
-            });
-
-            XposedHelpers.findAndHookMethod("android.net.wifi.WifiInfo", lpparam.classLoader, "getBSSID", new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    param.setResult("");
-                }
-            });
-*/
-
-
-        }
-    }
-
-    public static void HookWifiGetConnectionInfo(final Class<?> cls, final String method,
-                                                 final String mBSSID, final String mMacAddress, final String mSSID, InetAddress mIpAddress) {
+    public static void hook_fake_getConnectionInfo(final Class<?> cls, final String method,
+                                                   final String mBSSID, final String mMacAddress, final String mSSID, InetAddress mIpAddress) {
         try {
             Object[] obj = new Object[]{new XC_MethodHook() {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -125,7 +87,7 @@ public class ConnectionWifi {
     }
 
     //WIFI扫描信息
-    public static void HookWifiGetScanResult(final Class<?> cls, final String method) {
+    public static void hook_WifiGetScanResult(final Class<?> cls, final String method) {
         try {
             Object[] obj = new Object[]{new XC_MethodHook() {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -139,5 +101,79 @@ public class ConnectionWifi {
         } catch (Throwable e) {
             LogUtil.d("MyPrivacy", "ERROR:HookWifiGetConnectionInfo:" + e.getMessage());
         }
+    }
+
+    //wifi状态  返回 Wi-Fi is disabled.
+    private static void hook_getWifiState(){
+        XposedHelpers.findAndHookMethod("android.net.wifi.WifiManager", lpparam.classLoader, "getWifiState", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                param.setResult(1);
+            }
+        });
+    }
+    //wifi打开?
+    private static void hook_isWifiEnabled(){
+        XposedHelpers.findAndHookMethod("android.net.wifi.WifiManager", lpparam.classLoader, "isWifiEnabled", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                param.setResult(true);
+            }
+        });
+    }
+    //getMacAddress
+    private static void hook_fake_getMacAddress(String Mac){
+        XposedHelpers.findAndHookMethod("android.net.wifi.WifiInfo", lpparam.classLoader, "getMacAddress", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                param.setResult(Mac);
+            }
+        });
+    }
+    //getSSID
+    private static void hook_fake_getSSID(String SSID){
+        XposedHelpers.findAndHookMethod("android.net.wifi.WifiInfo", lpparam.classLoader, "getSSID", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                param.setResult(SSID);
+            }
+        });
+    }
+    //getBSSID
+    private static void hook_getBSSID(){
+        XposedHelpers.findAndHookMethod("android.net.wifi.WifiInfo", lpparam.classLoader, "getBSSID", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                param.setResult("00-00-00-00-00-00-00-00");
+            }
+        });
+    }
+
+
+
+    public void handle() {
+        if (prefs.getBoolean(lpparam.packageName + "/ConnectionWifi", false)) {
+
+            Mac = prefs.getString(lpparam.packageName + "/Mac", "");
+            SSID = prefs.getString(lpparam.packageName + "/SSID", "");
+
+            XposedBridge.log("MyPrivacy hook " + lpparam.packageName + "/ConnectionWifi");
+
+            hook_fake_getConnectionInfo(WifiManager.class, "getConnectionInfo",
+                    "",
+                    Mac,
+                    SSID,
+                    null);
+            hook_fake_getMacAddress(Mac);
+            hook_fake_getSSID(SSID);
+            hook_getBSSID();
+            hook_WifiGetScanResult(WifiManager.class, "getScanResults");
+            hook_getWifiState();
+            hook_isWifiEnabled();
+        }
+    }
+
+    private static class ConnectionWifiHolder {
+        private static final ConnectionWifi connectionWifi = new ConnectionWifi();
     }
 }

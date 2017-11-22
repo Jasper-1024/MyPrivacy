@@ -46,7 +46,8 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
         //XposedBridge.log("MyPrivacy hook " + "/ConnectionWifi");
         ConnectionWifi.getConnectionWifi(lpparam,prefs).handle();
 
-
+        //XposedBridge.log("MyPrivacy hook " + "/CellInfo");
+        CellInfo.getCellInfo(lpparam,prefs).handle();
 
     }
 

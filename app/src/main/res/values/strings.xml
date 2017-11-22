@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">MyPrivacy</string>
     <string name="ShowSystemApp">SystemApp</string>
-    <string name="xposeddescription">Control those permissions that Appops can not override</string>
+    <string name="xposeddescription">限制部分Appops无法覆盖隐私权限</string>
     <string name="about">about</string>
     <string name="setting">setting</string>
     <string name="title_activity_app_settings">Settings</string>
