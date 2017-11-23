@@ -49,6 +49,7 @@ public class ApplistItem extends BaseItem implements BindingAdapterItem ,Compara
         setOnClickListener(view -> {
             Intent intent = new Intent(MyApplicantion.getContext(), AppSettingActivity.class);
             intent.putExtra("PackageName", AppId);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             switch (view.getId()) {
                 case R.id.ApplistIcon:
                     Log.d(TAG, "onClick: " + AppId);
