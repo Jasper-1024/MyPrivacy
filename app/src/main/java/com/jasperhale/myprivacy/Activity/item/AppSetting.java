@@ -1,16 +1,16 @@
-package com.jasperhale.myprivacy.Activity.model;
+package com.jasperhale.myprivacy.Activity.item;
 
 
 import android.databinding.Bindable;
 
-import com.jasperhale.myprivacy.Activity.Base.BaseModel;
 import com.jasperhale.myprivacy.BR;
+import com.jasperhale.myprivacy.R;
 
 /**
  * Created by ZHANG on 2017/11/10.
  */
 
-public class AppSetting extends BaseModel {
+public class AppSetting extends BaseItem {
     private boolean InstalledApp = false;
     private boolean RunningApp = false;
     private boolean ConnectionWifi = false;
@@ -28,6 +28,11 @@ public class AppSetting extends BaseModel {
     private String smnc = "1";
     private String slac = "41070";
     private String scid = "8309067";
+
+    @Override
+    public int getViewType() {
+        return R.layout.activity_app_setting;
+    }
 
 
     @Bindable

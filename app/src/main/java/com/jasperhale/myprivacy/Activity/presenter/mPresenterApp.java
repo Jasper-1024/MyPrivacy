@@ -2,7 +2,7 @@ package com.jasperhale.myprivacy.Activity.presenter;
 
 
 import com.jasperhale.myprivacy.Activity.ViewModel.ViewModelApp;
-import com.jasperhale.myprivacy.Activity.model.AppSetting;
+import com.jasperhale.myprivacy.Activity.item.AppSetting;
 import com.jasperhale.myprivacy.Activity.model.ModelApp;
 import com.jasperhale.myprivacy.Activity.model.mModelApp;
 

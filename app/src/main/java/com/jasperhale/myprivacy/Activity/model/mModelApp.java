@@ -1,17 +1,10 @@
 package com.jasperhale.myprivacy.Activity.model;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.ViewOutlineProvider;
 
-import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
-
-import java.io.File;
-import java.io.IOException;
-
-import de.robv.android.xposed.XposedBridge;
+import com.jasperhale.myprivacy.Activity.item.AppSetting;
 
 import static android.content.Context.MODE_PRIVATE;
 

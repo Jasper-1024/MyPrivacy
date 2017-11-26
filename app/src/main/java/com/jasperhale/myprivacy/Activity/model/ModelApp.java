@@ -1,5 +1,7 @@
 package com.jasperhale.myprivacy.Activity.model;
 
+import com.jasperhale.myprivacy.Activity.item.AppSetting;
+
 /**
  * Created by ZHANG on 2017/11/11.
  */

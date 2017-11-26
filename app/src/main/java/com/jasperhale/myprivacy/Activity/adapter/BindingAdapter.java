@@ -2,11 +2,14 @@ package com.jasperhale.myprivacy.Activity.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
-import com.jasperhale.myprivacy.BR;
+import com.jasperhale.myprivacy.Activity.Base.LogUtil;
+import com.jasperhale.myprivacy.Activity.item.AppSetting;
+import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +17,8 @@ import java.util.List;
 /**
  * Created by ZHANG on 2017/10/29.
  */
-
-public class BindingAdapter extends RecyclerView.Adapter<BindingAdapter.BindingHolder> {
+//暂时保留
+public class BindingAdapter extends RecyclerView.Adapter<BindingHolder> {
 
 
     private List<BindingAdapterItem> items = new ArrayList<>();
@@ -85,6 +88,32 @@ public class BindingAdapter extends RecyclerView.Adapter<BindingAdapter.BindingH
         holder.bindData(items.get(position));
     }
 
+
+    @Override
+    public void onBindViewHolder(BindingHolder holder, int position, List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
+            //文艺青年中的文青
+            Bundle payload = (Bundle) payloads.get(0);//取出我们在getChangePayload（）方法返回的bundle
+            //BindingAdapterItem bean = items.get(position);//取出新数据源，（可以不用）
+            LogUtil.d("Adatper","");
+            for (String key : payload.keySet()) {
+                switch (key) {
+                    case "ApplistItem":
+                        this.replaceItem((ApplistItem)payload.getParcelable("ApplistItem"),position);
+                        break;
+                    case "AppSetting":
+                        this.replaceItem((AppSetting)payload.getParcelable("AppSetting"),position);;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
+
     @Override
     public int getItemCount() {
         return items.size();
@@ -93,21 +122,5 @@ public class BindingAdapter extends RecyclerView.Adapter<BindingAdapter.BindingH
     @Override
     public int getItemViewType(int position) {
         return items.get(position).getViewType();
-    }
-
-    static class BindingHolder extends RecyclerView.ViewHolder {
-
-        ViewDataBinding binding;
-
-        public BindingHolder(ViewDataBinding binding) {
-            //
-            super(binding.getRoot());
-            this.binding = binding;
-        }
-
-        public void bindData(BindingAdapterItem item) {
-            binding.setVariable(BR.item, item);
-        }
-
     }
 }

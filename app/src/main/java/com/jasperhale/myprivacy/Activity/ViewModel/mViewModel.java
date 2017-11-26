@@ -1,10 +1,28 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
+import android.content.pm.PackageInfo;
+import android.support.v4.util.Pair;
+import android.support.v7.util.DiffUtil;
+
 import com.jasperhale.myprivacy.Activity.MainActicityinterface;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
+import com.jasperhale.myprivacy.Activity.adapter.DiffCallBack_ApplistItem;
+import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
+import static io.reactivex.schedulers.Schedulers.computation;
 
 /**
  * Created by ZHANG on 2017/10/31.
@@ -13,8 +31,9 @@ import java.util.List;
 public class mViewModel implements ViewModel {
     //List<BindingAdapterItem> items = new ArrayList<>();
     private BindingAdapter adapter = new BindingAdapter();
+    private Disposable disposable;
 
-    public mViewModel(MainActicityinterface acticityinterface){
+    public mViewModel(MainActicityinterface acticityinterface) {
         //初始化adapter绑定
         acticityinterface.initDataBinding(adapter);
     }
@@ -23,6 +42,7 @@ public class mViewModel implements ViewModel {
     public List<BindingAdapterItem> getItems() {
         return adapter.getItems();
     }
+
     @Override
     public void setItem(BindingAdapterItem item) {
         adapter.setItem(item);
@@ -32,6 +52,7 @@ public class mViewModel implements ViewModel {
     public void setItems(List<BindingAdapterItem> items) {
         adapter.setItems(items);
     }
+
     @Override
     public void addItem(BindingAdapterItem item) {
         adapter.addItem(item);
@@ -39,7 +60,7 @@ public class mViewModel implements ViewModel {
 
     @Override
     public void addItem(BindingAdapterItem item, int position) {
-        adapter.addItem(item,position);
+        adapter.addItem(item, position);
     }
 
     @Override
@@ -63,7 +84,33 @@ public class mViewModel implements ViewModel {
     }
 
     @Override
-    public void RefreshRecycleView() {
+    public void notifyDataSetChanged() {
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void RefreshRecycleView(List<BindingAdapterItem> items) {
+
+        Pair<DiffUtil.DiffResult, List<BindingAdapterItem>> initialPair = Pair.create(null, items);
+
+        Observable
+                .create((ObservableOnSubscribe<Pair<DiffUtil.DiffResult, List<BindingAdapterItem>>>)
+                        emitter -> emitter.onNext(initialPair)
+                )
+                //.subscribeOn(Schedulers.newThread())
+                //cpu密集 排序
+                .observeOn(Schedulers.computation())
+                .map(Pair_Applist -> {
+                    List<BindingAdapterItem> items1 = Pair_Applist.second;
+                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack_ApplistItem(adapter.getItems(), items1), true);
+                    return Pair.create(diffResult, items1);
+                })
+                .observeOn(mainThread())
+                .subscribe(Pair_Applist -> {
+                    DiffUtil.DiffResult diffResult = Pair_Applist.first;
+                    diffResult.dispatchUpdatesTo(adapter);
+                    adapter.setItems(Pair_Applist.second);
+                });
+
     }
 }

@@ -5,7 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.BindingAdapter;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.ImageView;
@@ -32,7 +36,7 @@ import static java.io.File.separator;
  * Created by ZHANG on 2017/10/29.
  */
 
-public class ApplistItem extends BaseItem implements BindingAdapterItem ,Comparable<ApplistItem>{
+public class ApplistItem extends BaseItem implements Comparable<ApplistItem>,Parcelable {
 
     @Override
     public int getViewType() {
@@ -61,6 +65,7 @@ public class ApplistItem extends BaseItem implements BindingAdapterItem ,Compara
             }
         });
     }
+    public ApplistItem(){}
 
     private String AppId;
     private String AppName;
@@ -132,4 +137,34 @@ public class ApplistItem extends BaseItem implements BindingAdapterItem ,Compara
                 .apply(options)
                 .into(imageView);
     }
+
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+    public void writeToParcel(Parcel dest, int flags) {
+        BitmapDrawable bd =  (BitmapDrawable) AppIcon;
+        dest.writeString(AppId);
+        dest.writeString(AppName);
+        bd.getBitmap().writeToParcel(dest,0);
+    }
+
+    //在实现上面的接口方法后，接下来还需要执行反序列化，定义一个变量，并重新定义其中的部分方法
+    public static final Parcelable.Creator< ApplistItem> CREATOR = new Parcelable.Creator<ApplistItem>(){
+
+        @Override
+        public  ApplistItem createFromParcel(Parcel source) {                  //在这个方法中反序列化上面的序列化内容，最后根据反序列化得到的各个属性，得到之前试图传递的对象
+            //反序列化的属性的顺序必须和之前写入的顺序一致
+            ApplistItem item = new  ApplistItem();
+            item.AppId = source.readString();
+            item.AppName = source.readString();
+            item.AppIcon = new BitmapDrawable(Bitmap.CREATOR.createFromParcel(source));
+            return item;
+        }
+
+        @Override
+        public  ApplistItem[] newArray(int size) {
+            return new  ApplistItem[size];                     //一般返回一个数量为size的传递的类的数组就可以了
+        }
+    };
 }

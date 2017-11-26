@@ -8,7 +8,7 @@
 
         <variable
             name="appsetting"
-            type="com.jasperhale.myprivacy.Activity.model.AppSetting" />
+            type="com.jasperhale.myprivacy.Activity.item.AppSetting" />
     </data>
 
     <ScrollView
@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="8dp"
+                android:animateLayoutChanges="true"
                 app:layout_constraintTop_toBottomOf="@+id/appsetting_applist">
 
                 <TextView

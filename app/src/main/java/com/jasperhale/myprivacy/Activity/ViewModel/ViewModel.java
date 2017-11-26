@@ -37,5 +37,7 @@ public interface ViewModel {
     void clearItems();
 
     //notifyDataSetChanged
-    void RefreshRecycleView();
+    void notifyDataSetChanged();
+
+    void RefreshRecycleView(List<BindingAdapterItem> items);
 }
