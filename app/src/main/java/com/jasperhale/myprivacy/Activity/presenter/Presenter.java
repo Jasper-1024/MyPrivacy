@@ -6,4 +6,5 @@ package com.jasperhale.myprivacy.Activity.presenter;
 
 public interface Presenter {
     void RefreshView();
+    void SeaechView(String query);
 }

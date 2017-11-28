@@ -3,7 +3,7 @@ package com.jasperhale.myprivacy.Activity.Hook;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 
-import com.jasperhale.myprivacy.Activity.Base.BaseXposedClass;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,6 @@ import java.util.List;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;

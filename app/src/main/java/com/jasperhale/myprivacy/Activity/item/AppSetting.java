@@ -151,7 +151,7 @@ public class AppSetting extends BaseItem {
     }
 
     public void setSmcc(String smcc) {
-        this.mcc = Integer.valueOf(smcc).intValue();
+        this.mcc = Integer.valueOf(smcc);
         notifyPropertyChanged(BR.smcc);
     }
     @Bindable
@@ -160,7 +160,7 @@ public class AppSetting extends BaseItem {
     }
 
     public void setSmnc(String smnc) {
-        this.mnc = Integer.valueOf(smnc).intValue();
+        this.mnc = Integer.valueOf(smnc);
         notifyPropertyChanged(BR.smnc);
     }
     @Bindable
@@ -169,7 +169,7 @@ public class AppSetting extends BaseItem {
     }
 
     public void setScid(String scid) {
-        this.cid = Integer.valueOf(scid).intValue();
+        this.cid = Integer.valueOf(scid);
         notifyPropertyChanged(BR.scid);
     }
     @Bindable
@@ -178,7 +178,7 @@ public class AppSetting extends BaseItem {
     }
 
     public void setSlac(String slac) {
-        this.lac = Integer.valueOf(slac).intValue();
+        this.lac = Integer.valueOf(slac);
         notifyPropertyChanged(BR.slac);
     }
 

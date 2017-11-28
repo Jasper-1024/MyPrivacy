@@ -8,11 +8,16 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.jasperhale.myprivacy.Activity.Base.LogUtil;
-import com.jasperhale.myprivacy.Activity.item.AppSetting;
-import com.jasperhale.myprivacy.Activity.item.ApplistItem;
+
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.schedulers.Schedulers;
+
+
 
 /**
  * Created by ZHANG on 2017/10/29.
@@ -20,12 +25,38 @@ import java.util.List;
 //暂时保留
 public class BindingAdapter extends RecyclerView.Adapter<BindingHolder> {
 
-
     private List<BindingAdapterItem> items = new ArrayList<>();
+    private List<BindingAdapterItem> items_backup = new ArrayList<>();
 
     //获取List<BindingAdapterItem> 实例
     public List<BindingAdapterItem> getItems() {
         return items;
+    }
+
+    public void setItems_backup() {
+        items_backup.clear();
+        Observable
+                .create((ObservableOnSubscribe<List<BindingAdapterItem>>)
+                        emitter -> emitter.onNext(items)
+                )
+                //cpu密集 排序
+                .observeOn(Schedulers.computation())
+                .subscribe(items -> items_backup.addAll(items));
+    }
+    public void setItems_backup( List<BindingAdapterItem> items) {
+        items_backup.clear();
+        Observable
+                .create((ObservableOnSubscribe<List<BindingAdapterItem>>)
+                        emitter -> emitter.onNext(items)
+                )
+                //cpu密集 排序
+                .observeOn(Schedulers.computation())
+                .subscribe(itemsp -> items_backup.addAll(itemsp));
+    }
+
+
+    public List<BindingAdapterItem> getItems_backup() {
+        return items_backup;
     }
 
     //显示list<item>
@@ -94,17 +125,15 @@ public class BindingAdapter extends RecyclerView.Adapter<BindingHolder> {
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position);
         } else {
-            //文艺青年中的文青
             Bundle payload = (Bundle) payloads.get(0);//取出我们在getChangePayload（）方法返回的bundle
-            //BindingAdapterItem bean = items.get(position);//取出新数据源，（可以不用）
-            LogUtil.d("Adatper","");
+            LogUtil.d("Adatper", "");
             for (String key : payload.keySet()) {
                 switch (key) {
                     case "ApplistItem":
-                        this.replaceItem((ApplistItem)payload.getParcelable("ApplistItem"),position);
+                        this.replaceItem(payload.getParcelable("ApplistItem"), position);
                         break;
                     case "AppSetting":
-                        this.replaceItem((AppSetting)payload.getParcelable("AppSetting"),position);;
+                        this.replaceItem(payload.getParcelable("AppSetting"), position);
                         break;
                     default:
                         break;

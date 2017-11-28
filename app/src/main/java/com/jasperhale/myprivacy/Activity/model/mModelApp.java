@@ -98,8 +98,7 @@ public class mModelApp implements ModelApp {
     }
 
     private static SharedPreferences getPreferences(Context ctx, String prefName) {
-        SharedPreferences prefs = ctx.getSharedPreferences(prefName, MODE_PRIVATE);
-        return prefs;
+        return ctx.getSharedPreferences(prefName, MODE_PRIVATE);
     }
 
     private static void MakeFileReadable(Context ctx, String prefName){

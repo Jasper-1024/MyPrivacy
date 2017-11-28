@@ -1,7 +1,6 @@
 package com.jasperhale.myprivacy.Activity.model;
 
 import android.content.pm.PackageInfo;
-import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 
 import java.util.List;

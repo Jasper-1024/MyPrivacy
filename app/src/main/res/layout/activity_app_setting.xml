@@ -115,7 +115,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@={appsetting.SSID}" />
+                            android:text="@={appsetting.SSID}"
+                            android:inputType="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -135,7 +136,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@={appsetting.mac}" />
+                            android:text="@={appsetting.mac}"
+                            android:inputType="" />
 
                     </LinearLayout>
 
@@ -174,7 +176,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@={appsetting.smcc}" />
+                            android:text="@={appsetting.smcc}"
+                            android:inputType="" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -194,7 +197,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@={appsetting.smnc}" />
+                            android:text="@={appsetting.smnc}"
+                            android:inputType="" />
 
                     </LinearLayout>
                     <LinearLayout
@@ -214,7 +218,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@={appsetting.scid}" />
+                            android:text="@={appsetting.scid}"
+                            android:inputType="" />
 
                     </LinearLayout>
                     <LinearLayout
@@ -234,7 +239,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@={appsetting.slac}" />
+                            android:text="@={appsetting.slac}"
+                            android:inputType="" />
 
                     </LinearLayout>
 

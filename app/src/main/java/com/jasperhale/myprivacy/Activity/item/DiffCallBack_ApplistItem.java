@@ -1,9 +1,10 @@
-package com.jasperhale.myprivacy.Activity.adapter;
+package com.jasperhale.myprivacy.Activity.item;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
-import com.jasperhale.myprivacy.Activity.item.ApplistItem;
+import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
+
 
 import java.util.List;
 
@@ -55,15 +56,10 @@ public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
      */
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        ApplistItem beanOld = (ApplistItem)mOldDatas.get(oldItemPosition);
-        ApplistItem beanNew = (ApplistItem)mNewDatas.get(newItemPosition);
-        if (!beanOld.getAppName().equals(beanNew.getAppName())) {
-            return false;//如果有内容不同，就返回false
-        }
-        if (beanOld.getAppId() != beanNew.getAppId()) {
-            return false;//如果有内容不同，就返回false
-        }
-        return true; //默认两个data内容是相同的
+        ApplistItem beanOld = (ApplistItem) mOldDatas.get(oldItemPosition);
+        ApplistItem beanNew = (ApplistItem) mNewDatas.get(newItemPosition);
+        //如果有内容不同，就返回false
+        return beanOld.getAppName().equals(beanNew.getAppName()) && beanOld.getAppId() == beanNew.getAppId();
     }
     /**
      * When {@link #areItemsTheSame(int, int)} returns {@code true} for two items and

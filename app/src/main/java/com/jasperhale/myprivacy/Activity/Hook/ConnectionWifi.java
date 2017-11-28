@@ -19,7 +19,7 @@ import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static de.robv.android.xposed.XposedBridge.log;
+
 
 /**
  * Created by ZHANG on 2017/11/20.
@@ -92,7 +92,7 @@ public class ConnectionWifi {
             Object[] obj = new Object[]{new XC_MethodHook() {
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     //List<ScanResult> rtn = (List<ScanResult>) param.getResult();
-                    List<ScanResult> scanResults = new ArrayList<ScanResult>();
+                    List<ScanResult> scanResults = new ArrayList<>();
                     scanResults.clear();
                     param.setResult(scanResults);
                 }

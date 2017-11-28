@@ -1,17 +1,17 @@
 package com.jasperhale.myprivacy.Activity.presenter;
 
 import android.content.pm.PackageInfo;
+import android.text.TextUtils;
 
-import com.github.promeg.pinyinhelper.Pinyin;
+
+import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
 import com.jasperhale.myprivacy.Activity.ViewModel.ViewModel;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 import com.jasperhale.myprivacy.Activity.model.Model;
 import com.jasperhale.myprivacy.Activity.model.mModel;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +19,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+
+import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
 
 /**
@@ -82,9 +84,36 @@ public class mPresenter implements Presenter {
                 //主线程
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(s -> {
+                    viewModel.setItems_backup(s);
                     viewModel.RefreshRecycleView(s);
                 });
+    }
 
+    @Override
+    public void SeaechView(String query) {
 
+        if(TextUtils.isEmpty(query)){
+            viewModel.RefreshRecycleView(viewModel.getItems_backup());
+        }else {
+            Observable
+                    .create((ObservableOnSubscribe<String>)
+                            emitter -> emitter.onNext(MyApplicantion.transformPinYin(query))
+                    )
+                    //新线程
+                    .subscribeOn(Schedulers.newThread())
+                    //cpu密集 排序
+                    .observeOn(Schedulers.computation())
+                    .map(result -> {
+                        List<BindingAdapterItem> items = new ArrayList<>();
+                        for (BindingAdapterItem item : viewModel.getItems_backup()){
+                            if (((ApplistItem) item).getAppName_compare().contains(result)){
+                                items.add(item);
+                            }
+                        }
+                        return items;
+                    })
+                    .observeOn(mainThread())
+                    .subscribe(viewModel::RefreshRecycleView);
+        }
     }
 }

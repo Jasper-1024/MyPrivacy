@@ -12,8 +12,14 @@ public interface ViewModel {
     //获取List<BindingAdapterItem> 实例
     List<BindingAdapterItem> getItems();
 
+    //获取List_Backup<BindingAdapterItem> 实例
+    List<BindingAdapterItem> getItems_backup();
+
     //显示list<item>
     void setItems(List<BindingAdapterItem> items);
+
+    void setItems_backup();
+    void setItems_backup(List<BindingAdapterItem> items);
 
     //显示单个item
     void setItem(BindingAdapterItem item);

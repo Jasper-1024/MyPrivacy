@@ -1,5 +1,6 @@
 package com.jasperhale.myprivacy.Activity.Base;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
  * Created by ZHANG on 2017/11/12.
  */
 
+@SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

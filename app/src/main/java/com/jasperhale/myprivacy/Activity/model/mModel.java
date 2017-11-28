@@ -1,7 +1,6 @@
 package com.jasperhale.myprivacy.Activity.model;
 
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -9,14 +8,10 @@ import android.preference.PreferenceManager;
 
 import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
-import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import static android.content.Context.MODE_PRIVATE;
 
 
 /**

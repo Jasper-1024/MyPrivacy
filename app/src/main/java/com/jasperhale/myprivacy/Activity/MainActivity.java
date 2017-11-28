@@ -5,7 +5,10 @@ import android.databinding.DataBindingUtil;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -20,7 +23,9 @@ import com.jasperhale.myprivacy.Activity.presenter.mPresenter;
 import com.jasperhale.myprivacy.R;
 import com.jasperhale.myprivacy.databinding.ActivityMainBinding;
 
-public class MainActivity extends BaseActivity implements MainActicityinterface {
+import java.util.List;
+
+public class MainActivity extends BaseActivity implements MainActicityinterface ,SearchView.OnQueryTextListener{
 
     private ActivityMainBinding binding;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -87,6 +92,9 @@ public class MainActivity extends BaseActivity implements MainActicityinterface 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
+        final MenuItem searchItem = menu.findItem(R.id.menu_search);
+        final SearchView searchView = (SearchView)searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -105,6 +113,17 @@ public class MainActivity extends BaseActivity implements MainActicityinterface 
                 return super.onOptionsItemSelected(item);
         }
     }
+    @Override
+    public boolean onQueryTextChange(String query) {
+        presenter.SeaechView(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
 }
 
 

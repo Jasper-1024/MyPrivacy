@@ -9,7 +9,7 @@ import de.robv.android.xposed.XSharedPreferences;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
-import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+
 
 
 /**

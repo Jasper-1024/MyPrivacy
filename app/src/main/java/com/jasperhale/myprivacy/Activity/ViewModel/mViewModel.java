@@ -1,28 +1,21 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
-import android.content.pm.PackageInfo;
 import android.support.v4.util.Pair;
 import android.support.v7.util.DiffUtil;
 
 import com.jasperhale.myprivacy.Activity.MainActicityinterface;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
-import com.jasperhale.myprivacy.Activity.adapter.DiffCallBack_ApplistItem;
-import com.jasperhale.myprivacy.Activity.item.ApplistItem;
+import com.jasperhale.myprivacy.Activity.item.DiffCallBack_ApplistItem;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
-import static io.reactivex.schedulers.Schedulers.computation;
 
 /**
  * Created by ZHANG on 2017/10/31.
@@ -44,8 +37,23 @@ public class mViewModel implements ViewModel {
     }
 
     @Override
+    public List<BindingAdapterItem> getItems_backup() {
+        return adapter.getItems_backup();
+    }
+
+    @Override
     public void setItem(BindingAdapterItem item) {
         adapter.setItem(item);
+    }
+
+    @Override
+    public void setItems_backup() {
+        adapter.setItems_backup();
+    }
+
+    @Override
+    public void setItems_backup(List<BindingAdapterItem> items) {
+        adapter.setItems_backup(items);
     }
 
     @Override

@@ -18,19 +18,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.github.promeg.pinyinhelper.Pinyin;
-import com.github.promeg.tinypinyin.lexicons.android.cncity.CnCityDict;
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
 import com.jasperhale.myprivacy.Activity.View.AppSettingActivity;
-import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.BR;
 import com.jasperhale.myprivacy.R;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import static android.content.ContentValues.TAG;
-import static java.io.File.separator;
+
 
 /**
  * Created by ZHANG on 2017/10/29.
@@ -47,7 +43,7 @@ public class ApplistItem extends BaseItem implements Comparable<ApplistItem>,Par
         this.AppId = AppId;
         this.AppName = AppName;
         this.AppIcon = AppIcon;
-        this.AppName_compare = ApplistItem.transformPinYin(AppName);
+        this.AppName_compare = MyApplicantion.transformPinYin(AppName);
 
 
         setOnClickListener(view -> {
@@ -104,18 +100,11 @@ public class ApplistItem extends BaseItem implements Comparable<ApplistItem>,Par
         notifyPropertyChanged(BR.appIcon);
     }
 
-    private static String transformPinYin(String character) {
-        String vp ;
-        vp = character.toUpperCase();
-
-        StringBuffer buffer = new StringBuffer();
-
-        for (int i = 0; i < vp.length(); i++) {
-            buffer.append(Pinyin.toPinyin(vp.charAt(i)));
-        }
-        return buffer.toString();
-
+    public String getAppName_compare(){
+        return AppName_compare;
     }
+
+
 
     @Override
     public int compareTo(@NonNull ApplistItem another) {
@@ -153,7 +142,7 @@ public class ApplistItem extends BaseItem implements Comparable<ApplistItem>,Par
     public static final Parcelable.Creator< ApplistItem> CREATOR = new Parcelable.Creator<ApplistItem>(){
 
         @Override
-        public  ApplistItem createFromParcel(Parcel source) {                  //在这个方法中反序列化上面的序列化内容，最后根据反序列化得到的各个属性，得到之前试图传递的对象
+        public  ApplistItem createFromParcel(Parcel source) { //在这个方法中反序列化上面的序列化内容，最后根据反序列化得到的各个属性，得到之前试图传递的对象
             //反序列化的属性的顺序必须和之前写入的顺序一致
             ApplistItem item = new  ApplistItem();
             item.AppId = source.readString();
