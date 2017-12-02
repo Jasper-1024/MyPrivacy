@@ -1,24 +1,19 @@
 package com.jasperhale.myprivacy.Activity.item;
 
-
 import android.databinding.Bindable;
 
 import com.jasperhale.myprivacy.BR;
 import com.jasperhale.myprivacy.R;
 
 /**
- * Created by ZHANG on 2017/11/10.
+ * Created by ZHANG on 2017/11/29.
  */
 
-public class AppSetting extends BaseItem {
-    private boolean InstalledApp = false;
-    private boolean RunningApp = false;
-    private boolean ConnectionWifi = false;
-    private String SSID = "1900";
-    private String Mac = "A5:A2:6F:35:D0:CF";
-    //the network ID, or -1 if there is no currently connected network
-    private int NetworkId = -1;
-
+public class AppSetting_cell extends BaseItem{
+    @Override
+    public int getViewType() {
+        return R.layout.item_cell;
+    }
     private boolean CellInfo = false;
     private int mcc = 460;
     private int mnc = 1;
@@ -28,73 +23,6 @@ public class AppSetting extends BaseItem {
     private String smnc = "1";
     private String slac = "41070";
     private String scid = "8309067";
-
-    @Override
-    public int getViewType() {
-        return R.layout.activity_app_setting;
-    }
-
-
-    @Bindable
-    public boolean getInstalledApp() {
-        return InstalledApp;
-    }
-
-    public void setInstalledApp(boolean bool) {
-        this.InstalledApp = bool;
-        notifyPropertyChanged(BR.installedApp);
-    }
-
-    @Bindable
-    public boolean getRunningApp() {
-        return RunningApp;
-    }
-
-    public void setRunningApp(boolean bool) {
-        this.RunningApp = bool;
-        notifyPropertyChanged(BR.runningApp);
-    }
-
-    @Bindable
-    public boolean getConnectionWifi() {
-        return ConnectionWifi;
-    }
-
-    public void setConnectionWifi(boolean bool) {
-        this.ConnectionWifi = bool;
-        notifyPropertyChanged(BR.connectionWifi);
-    }
-
-    @Bindable
-    public String getSSID() {
-        return SSID;
-    }
-
-    public void setSSID(String SSID) {
-        this.SSID = SSID;
-        notifyPropertyChanged(BR.sSID);
-    }
-
-    @Bindable
-    public String getMac() {
-        return Mac;
-    }
-
-    public void setMac(String mac) {
-        Mac = mac;
-        notifyPropertyChanged(BR.mac);
-    }
-
-    @Bindable
-    public int getNetworkId() {
-        return NetworkId;
-    }
-
-    public void setNetworkId(int networkId) {
-        NetworkId = networkId;
-        notifyPropertyChanged(BR.networkId);
-    }
-
     @Bindable
     public boolean getCellInfo() {
         return CellInfo;
@@ -181,5 +109,4 @@ public class AppSetting extends BaseItem {
         this.lac = Integer.valueOf(slac);
         notifyPropertyChanged(BR.slac);
     }
-
 }

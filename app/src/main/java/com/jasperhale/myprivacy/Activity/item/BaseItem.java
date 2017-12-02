@@ -10,6 +10,7 @@ import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
  */
 
 public abstract class BaseItem extends BaseObservable implements BindingAdapterItem {
+
     private View.OnClickListener onClickListener;
 
     public View.OnClickListener getOnClickListener() {

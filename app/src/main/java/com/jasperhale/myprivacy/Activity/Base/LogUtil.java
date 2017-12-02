@@ -13,7 +13,7 @@ public class LogUtil {
     private static final int WARN = 4;//警告
     private static final int ERROR = 5;//错误
     private static final int NOTHING = 6;//什么也不打印出来
-    private static final int level = NOTHING;//LEVEL:标准
+    private static final int level = DEBUG;//LEVEL:标准
 
     public static void v(String tag, String msg) {
         if (level <= VERBOSE) {//如果大于或者等于定义的标准就打印出来

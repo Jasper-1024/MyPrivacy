@@ -36,7 +36,6 @@ public class mModel implements Model {
     @Override
     public boolean ShowSystemApp() {
         if (getPreferences("ShowSystemApp")) {
-            LogUtil.d("mModel", "233");
         }
         return getPreferences("ShowSystemApp");
     }

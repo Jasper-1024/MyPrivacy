@@ -3,24 +3,25 @@ package com.jasperhale.myprivacy.Activity.View;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 
 import com.jasperhale.myprivacy.Activity.Base.BaseActivity;
+import com.jasperhale.myprivacy.Activity.MainActicityinterface;
 import com.jasperhale.myprivacy.Activity.ViewModel.mViewModeApp;
+import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.presenter.PresenterApp;
 import com.jasperhale.myprivacy.Activity.presenter.mPresenterApp;
 import com.jasperhale.myprivacy.R;
 import com.jasperhale.myprivacy.databinding.ActivityAppSettingBinding;
 
 
-public class AppSettingActivity extends BaseActivity {
-
+public class AppSettingActivity extends BaseActivity implements MainActicityinterface {
 
     private PresenterApp presenterApp;
     private mViewModeApp mViewModeApp;
-
 
     private ActivityAppSettingBinding binding;
 
@@ -31,14 +32,13 @@ public class AppSettingActivity extends BaseActivity {
 
         String PackageName = getIntent().getStringExtra("PackageName");
 
-        mViewModeApp = new mViewModeApp(PackageName);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_setting);
+        mViewModeApp = new mViewModeApp(this,PackageName);
+
         presenterApp = new mPresenterApp(mViewModeApp);
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_app_setting);
-        binding.setAppsetting(mViewModeApp.getAppSetting());
-
-
         Toolbar toolbar = binding.appsettingToolbar;
+        //Toolbar toolbar = findViewById(R.id.recyclerView_appsetting);
         toolbar.setTitle(PackageName);
         setSupportActionBar(toolbar);
         //返回按钮
@@ -72,6 +72,16 @@ public class AppSettingActivity extends BaseActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void initDataBinding(BindingAdapter adapter) {
+        LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
+        binding.recyclerViewAppsetting.setLayoutManager(manager);
+        binding.recyclerViewAppsetting.setAdapter(adapter);
+        binding.recyclerViewAppsetting.setNestedScrollingEnabled(false);
+        binding.recyclerViewAppsetting.setHasFixedSize(true);
+        binding.recyclerViewAppsetting.getLayoutManager().setAutoMeasureEnabled(true);
     }
 
 }

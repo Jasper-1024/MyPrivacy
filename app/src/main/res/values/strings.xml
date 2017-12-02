@@ -5,10 +5,11 @@
     <string name="about">about</string>
     <string name="setting">setting</string>
     <string name="title_activity_app_settings">Settings</string>
-    <string name="AppSetting_Location">Location</string>
+    <string name="AppSetting_Wifi">Wifi</string>
     <string name="AppSetting_AppLIst">AppLIst</string>
     <string name="AppSetting_Applist_title">InstalledApplist</string>
     <string name="AppSetting_Applist_Description">Description</string>
     <string name="appsetting_Image_contentDescription">MyPrivacy</string>
+    <string name="AppSetting_Cell">Cell</string>
 
 </resources>

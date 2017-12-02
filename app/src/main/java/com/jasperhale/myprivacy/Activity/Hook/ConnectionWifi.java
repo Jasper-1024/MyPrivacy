@@ -167,9 +167,11 @@ public class ConnectionWifi {
             hook_fake_getMacAddress(Mac);
             hook_fake_getSSID(SSID);
             hook_getBSSID();
-            hook_WifiGetScanResult(WifiManager.class, "getScanResults");
             hook_getWifiState();
-            hook_isWifiEnabled();
+            //hook_isWifiEnabled();
+        }
+        if (prefs.getBoolean(lpparam.packageName + "/WifiScan", false)) {
+            hook_WifiGetScanResult(WifiManager.class, "getScanResults");
         }
     }
 

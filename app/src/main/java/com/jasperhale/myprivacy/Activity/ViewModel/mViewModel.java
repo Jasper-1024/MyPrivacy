@@ -12,6 +12,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -24,7 +25,6 @@ import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 public class mViewModel implements ViewModel {
     //List<BindingAdapterItem> items = new ArrayList<>();
     private BindingAdapter adapter = new BindingAdapter();
-    private Disposable disposable;
 
     public mViewModel(MainActicityinterface acticityinterface) {
         //初始化adapter绑定
@@ -105,15 +105,20 @@ public class mViewModel implements ViewModel {
                 .create((ObservableOnSubscribe<Pair<DiffUtil.DiffResult, List<BindingAdapterItem>>>)
                         emitter -> emitter.onNext(initialPair)
                 )
-                //.subscribeOn(Schedulers.newThread())
+                .subscribeOn(Schedulers.trampoline())
                 //cpu密集 排序
                 .observeOn(Schedulers.computation())
+                //.observeOn(Schedulers.trampoline())
                 .map(Pair_Applist -> {
                     List<BindingAdapterItem> items1 = Pair_Applist.second;
                     DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack_ApplistItem(adapter.getItems(), items1), true);
                     return Pair.create(diffResult, items1);
                 })
-                .observeOn(mainThread())
+                //Android.mainThread()
+                //Schedulers.trampoline()
+                //.observeOn(AndroidSchedulers.mainThread())
+                //.observeOn(Schedulers.newThread())
+                .observeOn(Schedulers.trampoline())
                 .subscribe(Pair_Applist -> {
                     DiffUtil.DiffResult diffResult = Pair_Applist.first;
                     diffResult.dispatchUpdatesTo(adapter);

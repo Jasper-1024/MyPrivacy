@@ -22,7 +22,6 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * Created by ZHANG on 2017/10/29.
  */
-//暂时保留
 public class BindingAdapter extends RecyclerView.Adapter<BindingHolder> {
 
     private List<BindingAdapterItem> items = new ArrayList<>();
@@ -120,6 +119,7 @@ public class BindingAdapter extends RecyclerView.Adapter<BindingHolder> {
     }
 
 
+    /*
     @Override
     public void onBindViewHolder(BindingHolder holder, int position, List<Object> payloads) {
         if (payloads.isEmpty()) {
@@ -140,7 +140,7 @@ public class BindingAdapter extends RecyclerView.Adapter<BindingHolder> {
                 }
             }
         }
-    }
+    }*/
 
 
     @Override

@@ -5,6 +5,8 @@ package com.jasperhale.myprivacy.Activity.presenter;
  */
 
 public interface PresenterApp {
+    //读取数据
     void loadAppSetting();
+    //保存数据
     void saveAppSetting();
 }

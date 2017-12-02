@@ -2,6 +2,7 @@ package com.jasperhale.myprivacy.Activity.presenter;
 
 import android.content.pm.PackageInfo;
 import android.text.TextUtils;
+import android.util.Log;
 
 
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
@@ -28,6 +29,8 @@ import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
  */
 
 public class mPresenter implements Presenter {
+    private static boolean RefreshView = true;
+    private static boolean SeaechView = true;
     private final Model model;
     private final ViewModel viewModel;
 
@@ -38,82 +41,104 @@ public class mPresenter implements Presenter {
 
     @Override
     public void RefreshView() {
-        Observable
-                .create((ObservableOnSubscribe<List<PackageInfo>>) emitter -> emitter.onNext(model.getPackages())
-                )
-                //新线程
-                .subscribeOn(Schedulers.newThread())
-                //cpu密集,显示系统应用?
-                .observeOn(Schedulers.computation())
-                .map(packages -> {
-                    if (!model.ShowSystemApp()) {
-                        //剔除系统应用
-                        List<PackageInfo> items = new ArrayList<>();
-                        for (PackageInfo pac : packages) {
-                            if (!model.isSystemApp(pac)) {
-                                items.add(pac);
+        if (RefreshView) {
+            RefreshView = false;
+            Observable
+                    .create((ObservableOnSubscribe<String>) emitter -> emitter.onNext("")
+                    )
+                    //等待
+                    .subscribeOn(Schedulers.trampoline())
+                    //io密集
+                    .observeOn(Schedulers.computation())
+                    .map(s -> {
+                        return model.getPackages();
+                    })
+                    //cpu密集
+                    .observeOn(Schedulers.computation())
+                    .map(packages -> {
+                        //剔除系统应用?
+                        if (!model.ShowSystemApp()) {
+                            short i = 0;
+                            for (i = 0; i < packages.size(); i++) {
+                                if (model.isSystemApp(packages.get(i))) {
+                                    packages.remove(i);
+                                }
                             }
+                            return packages;
                         }
-                        return items;
-                    } else {
                         return packages;
-                    }
-                })
-                //io密集 创建Appitems
-                .observeOn(Schedulers.io())
-                .map(packages -> {
-                    List<ApplistItem> Appitems = new ArrayList<>();
-                    for (PackageInfo pac : packages) {
-                        Appitems.add(model.creatApplistItem(pac));
-                    }
-                    return Appitems;
-                })
-                //cpu密集 排序
-                .observeOn(Schedulers.computation())
-                .map(Appitems -> {
-                    Collections.sort(Appitems);
-                    return Appitems;
-                })
-                //io密集 赋值
-                .observeOn(Schedulers.io())
-                .map(Appitems -> {
-                    List<BindingAdapterItem> items = new ArrayList<>();
-                    items.addAll(Appitems);
-                    return items;
-                })
-                //主线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    viewModel.setItems_backup(s);
-                    viewModel.RefreshRecycleView(s);
-                });
+                    })
+                    //cpu密集 创建Appitems
+                    .observeOn(Schedulers.computation())
+                    .map(packages -> {
+                        List<ApplistItem> Appitems = new ArrayList<>();
+                        for (PackageInfo pac : packages) {
+                            Appitems.add(model.creatApplistItem(pac));
+                        }
+                        //排序
+                        Collections.sort(Appitems);
+                        return Appitems;
+                    })
+                    //cpu密集 排序
+                    /*
+                    .observeOn(Schedulers.computation())
+                    .map(Appitems -> {
+                        Collections.sort(Appitems);
+                        return Appitems;
+                    })*/
+                    .map(Appitems -> {
+                        List<BindingAdapterItem> items = new ArrayList<>();
+                        items.addAll(Appitems);
+                        return items;
+                    })
+                    //等待
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .map(items -> {
+                        viewModel.setItems(items);
+                        viewModel.notifyDataSetChanged();
+                        //viewModel.RefreshRecycleView(items);
+                        return items;
+                    })
+                    //新线程
+                    .observeOn(Schedulers.newThread())
+                    .subscribe(s -> {
+                        viewModel.setItems_backup(s);
+                    });
+            RefreshView = true;
+        }
     }
 
     @Override
     public void SeaechView(String query) {
-
-        if(TextUtils.isEmpty(query)){
-            viewModel.RefreshRecycleView(viewModel.getItems_backup());
-        }else {
-            Observable
-                    .create((ObservableOnSubscribe<String>)
-                            emitter -> emitter.onNext(MyApplicantion.transformPinYin(query))
-                    )
-                    //新线程
-                    .subscribeOn(Schedulers.newThread())
-                    //cpu密集 排序
-                    .observeOn(Schedulers.computation())
-                    .map(result -> {
-                        List<BindingAdapterItem> items = new ArrayList<>();
-                        for (BindingAdapterItem item : viewModel.getItems_backup()){
-                            if (((ApplistItem) item).getAppName_compare().contains(result)){
-                                items.add(item);
+        if (TextUtils.isEmpty(query)) {
+            viewModel.setItems(viewModel.getItems_backup());
+            viewModel.notifyDataSetChanged();
+            //viewModel.RefreshRecycleView(viewModel.getItems_backup());
+        } else {
+            if (SeaechView) {
+                Observable
+                        .create((ObservableOnSubscribe<String>)
+                                emitter -> emitter.onNext(MyApplicantion.transformPinYin(query))
+                        )
+                        //等待
+                        .subscribeOn(Schedulers.trampoline())
+                        //cpu密集 搜索
+                        .observeOn(Schedulers.computation())
+                        .map(result -> {
+                            List<BindingAdapterItem> items = new ArrayList<>();
+                            for (BindingAdapterItem item : viewModel.getItems_backup()) {
+                                if (((ApplistItem) item).getAppName_compare().contains(result)) {
+                                    items.add(item);
+                                }
                             }
-                        }
-                        return items;
-                    })
-                    .observeOn(mainThread())
-                    .subscribe(viewModel::RefreshRecycleView);
+                            return items;
+                        })
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(items -> {
+                            viewModel.setItems(items);
+                            viewModel.notifyDataSetChanged();
+                        });
+            }
         }
     }
 }

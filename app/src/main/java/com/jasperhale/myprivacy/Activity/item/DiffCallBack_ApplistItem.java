@@ -85,6 +85,7 @@ public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
      * @return A payload object that represents the change between the two items.
      * 返回 一个 代表着新老item的改变内容的 payload对象，
      */
+    /*
     @Nullable
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
@@ -104,4 +105,5 @@ public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
             return null;
         return payload;//
     }
+    */
 }
