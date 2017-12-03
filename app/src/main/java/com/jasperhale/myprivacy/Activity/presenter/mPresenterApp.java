@@ -47,11 +47,12 @@ public class mPresenterApp implements PresenterApp {
                     items.add(modelApp.getAppSetting_appinstall(viewModelApp.getPackageName()));
                     items.add(modelApp.getAppSetting_wifi(viewModelApp.getPackageName()));
                     items.add(modelApp.getAppSetting_cell(viewModelApp.getPackageName()));
+                    viewModelApp.setItems(items);
                     return items;
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(items -> {
-                    viewModelApp.setItems(items);
+                    //viewModelApp.setItems(items);
                     viewModelApp.notifyDataSetChanged();
                 });
     }

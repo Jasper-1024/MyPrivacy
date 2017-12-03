@@ -92,17 +92,17 @@ public class mPresenter implements Presenter {
                         return items;
                     })
                     //等待
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(Schedulers.trampoline())
                     .map(items -> {
                         viewModel.setItems(items);
-                        viewModel.notifyDataSetChanged();
+                        viewModel.setItems_backup(items);
                         //viewModel.RefreshRecycleView(items);
-                        return items;
+                        return "";
                     })
-                    //新线程
-                    .observeOn(Schedulers.newThread())
+                    //主线程
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(s -> {
-                        viewModel.setItems_backup(s);
+                        viewModel.notifyDataSetChanged();
                     });
             RefreshView = true;
         }
@@ -131,11 +131,12 @@ public class mPresenter implements Presenter {
                                     items.add(item);
                                 }
                             }
+                            viewModel.setItems(items);
                             return items;
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(items -> {
-                            viewModel.setItems(items);
+                            //viewModel.setItems(items);
                             viewModel.notifyDataSetChanged();
                         });
             }
