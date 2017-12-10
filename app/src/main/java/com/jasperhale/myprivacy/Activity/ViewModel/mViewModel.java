@@ -1,34 +1,21 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
-import android.support.v4.util.Pair;
-import android.support.v7.util.DiffUtil;
-
-import com.jasperhale.myprivacy.Activity.MainActicityinterface;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
-import com.jasperhale.myprivacy.Activity.item.DiffCallBack_ApplistItem;
 
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-
-import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
 
 /**
  * Created by ZHANG on 2017/10/31.
  */
 
 public class mViewModel implements ViewModel {
-    //List<BindingAdapterItem> items = new ArrayList<>();
-    private BindingAdapter adapter = new BindingAdapter();
+    private BindingAdapter adapter;
 
-    public mViewModel(MainActicityinterface acticityinterface) {
-        //初始化adapter绑定
-        acticityinterface.initDataBinding(adapter);
+    @Override
+    public void setAdapter(BindingAdapter adapter) {
+        this.adapter = adapter;
     }
 
     @Override
@@ -39,6 +26,11 @@ public class mViewModel implements ViewModel {
     @Override
     public List<BindingAdapterItem> getItems_backup() {
         return adapter.getItems_backup();
+    }
+
+    @Override
+    public void setItems(List<BindingAdapterItem> items) {
+        adapter.setItems(items);
     }
 
     @Override
@@ -56,35 +48,8 @@ public class mViewModel implements ViewModel {
         adapter.setItems_backup(items);
     }
 
-    @Override
-    public void setItems(List<BindingAdapterItem> items) {
-        adapter.setItems(items);
-    }
 
-    @Override
-    public void addItem(BindingAdapterItem item) {
-        adapter.addItem(item);
-    }
 
-    @Override
-    public void addItem(BindingAdapterItem item, int position) {
-        adapter.addItem(item, position);
-    }
-
-    @Override
-    public void addItems(List<BindingAdapterItem> items) {
-        adapter.addItems(items);
-    }
-
-    @Override
-    public void removeItem(BindingAdapterItem item) {
-        adapter.removeItem(item);
-    }
-
-    @Override
-    public void replaceItem(BindingAdapterItem item, int position) {
-        adapter.replaceItem(item, position);
-    }
 
     @Override
     public void clearItems() {
@@ -99,6 +64,7 @@ public class mViewModel implements ViewModel {
     @Override
     public void RefreshRecycleView(List<BindingAdapterItem> items) {
 
+        /*
         Pair<DiffUtil.DiffResult, List<BindingAdapterItem>> initialPair = Pair.create(null, items);
 
         Observable
@@ -123,7 +89,7 @@ public class mViewModel implements ViewModel {
                     DiffUtil.DiffResult diffResult = Pair_Applist.first;
                     diffResult.dispatchUpdatesTo(adapter);
                     adapter.setItems(Pair_Applist.second);
-                });
+                });*/
 
     }
 }

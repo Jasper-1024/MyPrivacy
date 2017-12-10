@@ -1,5 +1,6 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
+import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 
 import java.util.List;
@@ -12,6 +13,8 @@ public interface ViewModelApp {
     String getPackageName();
     //显示list<item>
     void setItems(List<BindingAdapterItem> items);
+    //设置adapter
+    void setAdapter(BindingAdapter adapter);
     //获取List<BindingAdapterItem> 实例
     List<BindingAdapterItem> getItems();
 

@@ -1,5 +1,6 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
+import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 
 import java.util.List;
@@ -9,7 +10,10 @@ import java.util.List;
  */
 
 public interface ViewModel {
-    //获取List<BindingAdapterItem> 实例
+    //设置adapter
+    void setAdapter(BindingAdapter adapter);
+
+    //获取List<BindingAdapterItem>
     List<BindingAdapterItem> getItems();
 
     //获取List_Backup<BindingAdapterItem> 实例
@@ -17,27 +21,12 @@ public interface ViewModel {
 
     //显示list<item>
     void setItems(List<BindingAdapterItem> items);
+    //显示item
+    void setItem(BindingAdapterItem items);
 
+    //备份
     void setItems_backup();
     void setItems_backup(List<BindingAdapterItem> items);
-
-    //显示单个item
-    void setItem(BindingAdapterItem item);
-
-    //添加item
-    void addItem(BindingAdapterItem item);
-
-    //指定位置添加item
-    void addItem(BindingAdapterItem item, int position);
-
-    //添加list<item>
-    void addItems(List<BindingAdapterItem> items);
-
-    //替换item
-    void replaceItem(BindingAdapterItem item, int position);
-
-    //移除item
-    void removeItem(BindingAdapterItem item);
 
     //清除item
     void clearItems();

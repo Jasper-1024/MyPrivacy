@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 
 import com.jasperhale.myprivacy.Activity.Base.BaseActivity;
-import com.jasperhale.myprivacy.Activity.MainActicityinterface;
 import com.jasperhale.myprivacy.Activity.ViewModel.mViewModeApp;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.presenter.PresenterApp;
@@ -18,12 +17,13 @@ import com.jasperhale.myprivacy.R;
 import com.jasperhale.myprivacy.databinding.ActivityAppSettingBinding;
 
 
-public class AppSettingActivity extends BaseActivity implements MainActicityinterface {
+public class AppSettingActivity extends BaseActivity  {
 
     private PresenterApp presenterApp;
     private mViewModeApp mViewModeApp;
 
     private ActivityAppSettingBinding binding;
+    private BindingAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +33,11 @@ public class AppSettingActivity extends BaseActivity implements MainActicityinte
         String PackageName = getIntent().getStringExtra("PackageName");
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_app_setting);
-        mViewModeApp = new mViewModeApp(this,PackageName);
+        adapter = new BindingAdapter();
+
+        mViewModeApp = new mViewModeApp(PackageName);
+        mViewModeApp.setAdapter(adapter);
+        initDataBinding();
 
         presenterApp = new mPresenterApp(mViewModeApp);
 
@@ -74,8 +78,8 @@ public class AppSettingActivity extends BaseActivity implements MainActicityinte
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void initDataBinding(BindingAdapter adapter) {
+
+    public void initDataBinding() {
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         binding.recyclerViewAppsetting.setLayoutManager(manager);
         binding.recyclerViewAppsetting.setAdapter(adapter);

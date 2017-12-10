@@ -16,10 +16,10 @@ public interface Model {
     //转换创建ApplistItem
     ApplistItem creatApplistItem(PackageInfo packageInfo);
 
-    //是否显示系统应用
-    boolean ShowSystemApp();
-
     //是否为系统应用
     boolean isSystemApp(PackageInfo pac);
+
+    //时候已限制权限
+    boolean isLimited(PackageInfo pac);
 
 }

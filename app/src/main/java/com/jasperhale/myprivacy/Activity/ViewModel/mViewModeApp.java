@@ -1,6 +1,5 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
-import com.jasperhale.myprivacy.Activity.MainActicityinterface;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 
@@ -11,15 +10,16 @@ import java.util.List;
  */
 
 public class mViewModeApp implements ViewModelApp{
-    private BindingAdapter adapter = new BindingAdapter();;
-
+    private BindingAdapter adapter ;
     private final String PackageName;
-    /*public void mViewModeApp(AppSetting appSetting){
-        this.appSetting = appSetting;
-    }*/
-    public mViewModeApp(MainActicityinterface acticityinterface,String packageName){
-        acticityinterface.initDataBinding(adapter);
+
+    public mViewModeApp(String packageName){
         this.PackageName = packageName;
+    }
+
+    @Override
+    public void setAdapter(BindingAdapter adapter) {
+        this.adapter = adapter;
     }
 
     @Override
