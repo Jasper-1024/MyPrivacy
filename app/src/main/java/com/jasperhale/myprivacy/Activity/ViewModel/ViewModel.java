@@ -1,7 +1,9 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
+import com.jasperhale.myprivacy.Activity.adapter.BindAdapter_applist;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapter;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
+import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 
 import java.util.List;
 
@@ -11,22 +13,22 @@ import java.util.List;
 
 public interface ViewModel {
     //设置adapter
-    void setAdapter(BindingAdapter adapter);
+    void setAdapter(BindAdapter_applist adapter);
 
     //获取List<BindingAdapterItem>
-    List<BindingAdapterItem> getItems();
+    List<ApplistItem> getItems();
 
     //获取List_Backup<BindingAdapterItem> 实例
-    List<BindingAdapterItem> getItems_backup();
+    List<ApplistItem> getItems_backup();
 
     //显示list<item>
-    void setItems(List<BindingAdapterItem> items);
+    void setItems(List<ApplistItem> items);
     //显示item
-    void setItem(BindingAdapterItem items);
+    void setItem(ApplistItem items);
 
     //备份
     void setItems_backup();
-    void setItems_backup(List<BindingAdapterItem> items);
+    void setItems_backup(List<ApplistItem> items);
 
     //清除item
     void clearItems();
@@ -34,5 +36,5 @@ public interface ViewModel {
     //notifyDataSetChanged
     void notifyDataSetChanged();
 
-    void RefreshRecycleView(List<BindingAdapterItem> items);
+    void RefreshRecycleView(List<ApplistItem> items);
 }

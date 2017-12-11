@@ -1,5 +1,7 @@
 package com.jasperhale.myprivacy.Activity.item;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
@@ -13,9 +15,9 @@ import java.util.List;
  */
 
 public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
-    private List<BindingAdapterItem> mOldDatas, mNewDatas;//看名字
+    private List<ApplistItem> mOldDatas, mNewDatas;//看名字
 
-    public DiffCallBack_ApplistItem(List<BindingAdapterItem> mOldDatas, List<BindingAdapterItem> mNewDatas) {
+    public DiffCallBack_ApplistItem(List<ApplistItem> mOldDatas, List<ApplistItem> mNewDatas) {
         this.mOldDatas = mOldDatas;
         this.mNewDatas = mNewDatas;
     }
@@ -37,13 +39,10 @@ public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
      * 被DiffUtil调用，用来判断 两个对象是否是相同的Item。
      * For example, if your items have unique ids, this method should check their id equality.
      * 例如，如果你的Item有唯一的id字段，这个方法就 判断id是否相等。
-     * 本例判断name字段是否一致
      */
     @Override
     public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-        ApplistItem beanOld = (ApplistItem)mOldDatas.get(oldItemPosition);
-        ApplistItem beanNew = (ApplistItem)mNewDatas.get(newItemPosition);
-        return beanOld.getAppId().equals(beanNew.getAppId());
+        return mOldDatas.get(oldItemPosition).getAppId().equals(mNewDatas.get(newItemPosition).getAppId());
     }
 
     /**
@@ -56,11 +55,9 @@ public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
      */
     @Override
     public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-        ApplistItem beanOld = (ApplistItem) mOldDatas.get(oldItemPosition);
-        ApplistItem beanNew = (ApplistItem) mNewDatas.get(newItemPosition);
-        //如果有内容不同，就返回false
-        return beanOld.getAppName().equals(beanNew.getAppName()) && beanOld.getAppId() == beanNew.getAppId();
+        return mOldDatas.get(oldItemPosition).getAppId().equals(mNewDatas.get(newItemPosition).getAppId());
     }
+
     /**
      * When {@link #areItemsTheSame(int, int)} returns {@code true} for two items and
      * {@link #areContentsTheSame(int, int)} returns false for them, DiffUtil
@@ -85,25 +82,41 @@ public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
      * @return A payload object that represents the change between the two items.
      * 返回 一个 代表着新老item的改变内容的 payload对象，
      */
-    /*
+
     @Nullable
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-        //实现这个方法 就能成为文艺青年中的文艺青年
+
         // 定向刷新中的部分更新
         // 效率最高
-        //只是没有了ItemChange的白光一闪动画，（反正我也觉得不太重要）
-        ApplistItem oldBean = (ApplistItem)mOldDatas.get(oldItemPosition);
-        ApplistItem newBean = (ApplistItem)mNewDatas.get(newItemPosition);
+        //只是没有了ItemChange的白光一闪动画
+        ApplistItem oldBean = mOldDatas.get(oldItemPosition);
+        ApplistItem newBean = mNewDatas.get(newItemPosition);
 
+        //传回变化部分
         Bundle payload = new Bundle();
+        /*
         if (!oldBean.getAppId().equals(newBean.getAppId())) {
             payload.putParcelable("ApplistItem",newBean);
+        }*/
+        if (!oldBean.getAppId().equals(newBean.getAppId())) {
+            payload.putString("AppId", newBean.getAppId());
         }
+        if (!oldBean.getAppName().equals(newBean.getAppName())) {
+            payload.putString("AppName", newBean.getAppName());
+        }
+        if (!oldBean.getAppIcon().equals(newBean.getAppIcon())) {
+            Bitmap bitmap = (Bitmap) ((BitmapDrawable) newBean.getAppIcon()).getBitmap();
+            payload.putParcelable("AppIcon", bitmap);
+        }
+        /*
+        if (!oldBean.getAppId().equals(newBean.getAppId())) {
+            payload.putString("AppId", newBean.getAppId());
+        }*/
 
         if (payload.size() == 0)//如果没有变化 就传空
             return null;
-        return payload;//
+        return payload;
     }
-    */
+
 }

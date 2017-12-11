@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 
 import com.jasperhale.myprivacy.Activity.Base.BaseActivity;
+import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 import com.jasperhale.myprivacy.Activity.View.AppListFragment;
 import com.jasperhale.myprivacy.Activity.View.SettingActivity;
 import com.jasperhale.myprivacy.Activity.ViewModel.ViewModel;
@@ -28,13 +30,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener, ViewPager.OnPageChangeListener {
 
     private ActivityMainBinding binding;
     private MainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
     private Toolbar toolbar;
+    private SearchView searchView;
 
-    private Presenter presenter;
+    public Presenter presenter;
 
     private List<AppListFragment> appListFragment = new ArrayList<>(3);
     private List<ViewModel> viewModels = new ArrayList<>(3);
@@ -56,24 +59,19 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         //ViewPage适配器
         mSectionsPagerAdapter = new MainActivity.SectionsPagerAdapter(getSupportFragmentManager());
         binding.viewPager.setAdapter(mSectionsPagerAdapter);
+        binding.viewPager.addOnPageChangeListener(this);
+        binding.viewPager.setOffscreenPageLimit(2);
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
 
-        User_viewModel = viewModels.get(0);
-        System_viewModel = viewModels.get(1);
-        Limted_viewModel = viewModels.get(2);
         //获取Presenter实例
-        presenter = new mPresenter(viewModels);
+        presenter = new mPresenter();
 
-        //获取应用列表
-        presenter.RefreshView();
     }
 
 
     @Override
     public void onResume() {
-        //界面重新刷新
-        //presenter.RefreshView();
         super.onResume();
     }
 
@@ -89,7 +87,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         final MenuItem searchItem = menu.findItem(R.id.menu_search);
-        final SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
         return true;
     }
@@ -104,6 +102,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 return true;
             case R.id.about:
                 Toast.makeText(this, "about", Toast.LENGTH_SHORT).show();
+                presenter.Refresh_User();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -112,13 +111,36 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextChange(String query) {
-        presenter.SeaechView(query,binding.tabLayout.getSelectedTabPosition());
+        /*
+        LogUtil.d("Search",query);
+        presenter.SeaechView(query, binding.tabLayout.getSelectedTabPosition());
+        */
         return true;
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
+    }
+
+
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int position,
+                               float positionOffset,
+                               int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        if (!searchView.getQuery().equals("")){
+            //presenter.SeaechView(searchView.getQuery().toString(),position);
+        }
     }
 
     //
@@ -131,9 +153,16 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         @Override
         public Fragment getItem(int position) {
             //新建Fragment mViewModel 实例
-            appListFragment.add(position,new AppListFragment());
-            viewModels.add(position,new mViewModel());
+            AppListFragment fragment = new AppListFragment();
+            fragment.setPosition(position);
+            appListFragment.add(position, fragment);
+
+            viewModels.add(position, new mViewModel());
             viewModels.get(position).setAdapter(appListFragment.get(position).getAdapter());
+
+            presenter.addViewModel(viewModels.get(position), position);
+            //fragment.setPresenter(presenter);
+
             return appListFragment.get(position);
         }
 

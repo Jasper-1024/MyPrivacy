@@ -14,7 +14,6 @@ public class BindingHolder  extends RecyclerView.ViewHolder {
     ViewDataBinding binding;
 
     public BindingHolder(ViewDataBinding binding) {
-        //
         super(binding.getRoot());
         this.binding = binding;
     }

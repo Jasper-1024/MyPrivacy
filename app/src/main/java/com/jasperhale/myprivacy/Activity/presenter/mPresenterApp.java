@@ -71,5 +71,14 @@ public class mPresenterApp implements PresenterApp {
                     modelApp.setAppSetting_wifi(viewModelApp.getPackageName(),(AppSetting_wifi) items.get(1));
                     modelApp.setAppSetting_cell(viewModelApp.getPackageName(),(AppSetting_cell)items.get(2));
                 });
+
+        Observable
+                .create((ObservableOnSubscribe<Boolean>) emitter -> emitter.onNext(modelApp.getApp(viewModelApp.getPackageName()))
+                )
+                //新线程
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(value -> {
+                    modelApp.setApp(viewModelApp.getPackageName(),value);
+                });
     }
 }

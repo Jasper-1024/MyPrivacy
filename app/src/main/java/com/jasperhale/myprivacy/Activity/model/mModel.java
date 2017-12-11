@@ -48,7 +48,7 @@ public class mModel implements Model {
 
     @Override
     public boolean isSystemApp(PackageInfo pac) {
-        return (pac.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1;
+        return (pac.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) > 0;
     }
 
     //获取设置键值

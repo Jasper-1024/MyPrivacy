@@ -33,16 +33,26 @@ public class mPresenter implements Presenter {
     private static boolean RefreshView = true;
     private static boolean SeaechView = true;
     private final Model model;
-    private List<ViewModel> viewModels;
+    private List<ViewModel> viewModels = new ArrayList<>(3);
 
-    public mPresenter(ViewModel User_viewModel,ViewModel System_viewModel,ViewModel Limted_viewModel) {
-        viewModels.add(0,User_viewModel);
+    public mPresenter(ViewModel viewModel) {
 
         model = new mModel();
     }
 
     @Override
+    public void addViewModel(ViewModel viewModel) {
+        viewModels.add(viewModel);
+    }
+
+    @Override
+    public void addViewModel(ViewModel viewModel, int position) {
+        viewModels.add(position,viewModel);
+    }
+
+    @Override
     public void Refresh_User() {
+        LogUtil.d("UI","Refresh_User()");
         Observable
                 .create((ObservableOnSubscribe<String>) emitter -> emitter.onNext("")
                 )
@@ -78,27 +88,22 @@ public class mPresenter implements Presenter {
                     Collections.sort(Appitems);
                     return Appitems;
                 })
-                .map(Appitems -> {
-                    List<BindingAdapterItem> items = new ArrayList<>();
-                    items.addAll(Appitems);
-                    return items;
-                })
-                //等待
-                .observeOn(Schedulers.trampoline())
                 .map(items -> {
-                    viewModels.get(0).setItems(items);
-                    viewModels.get(0).setItems_backup(items);
-                    return "";
+                    //viewModels.get(0).setItems(items);
+                    viewModels.get(0).setItems_backup();
+                    return items;
                 })
                 //主线程
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    viewModels.get(0).notifyDataSetChanged();
+                .subscribe(items -> {
+                    viewModels.get(0).RefreshRecycleView(items);
+                    //viewModels.get(0).notifyDataSetChanged();
                 });
     }
 
     @Override
     public void Refresh_System() {
+        LogUtil.d("UI","Refresh_System");
         Observable
                 .create((ObservableOnSubscribe<String>) emitter -> emitter.onNext("")
                 )
@@ -122,8 +127,6 @@ public class mPresenter implements Presenter {
                     }
                     return packages;
                 })
-                //cpu密集
-                .observeOn(Schedulers.computation())
                 //创建Appitems
                 .map(packages -> {
                     List<ApplistItem> Appitems = new ArrayList<>();
@@ -134,27 +137,22 @@ public class mPresenter implements Presenter {
                     Collections.sort(Appitems);
                     return Appitems;
                 })
-                .map(Appitems -> {
-                    List<BindingAdapterItem> items = new ArrayList<>();
-                    items.addAll(Appitems);
-                    return items;
-                })
-                //等待
-                .observeOn(Schedulers.trampoline())
                 .map(items -> {
                     viewModels.get(1).setItems(items);
-                    viewModels.get(1).setItems_backup(items);
-                    return "";
+                    viewModels.get(1).setItems_backup();
+                    return items;
                 })
                 //主线程
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
+                .subscribe(items -> {
+                    //viewModels.get(1).RefreshRecycleView(items);
                     viewModels.get(1).notifyDataSetChanged();
                 });
     }
 
     @Override
     public void Refresh_Limted() {
+        LogUtil.d("UI","Refresh_Limted");
         Observable
                 .create((ObservableOnSubscribe<String>) emitter -> emitter.onNext("")
                 )
@@ -168,18 +166,17 @@ public class mPresenter implements Presenter {
                 })
                 //cpu密集
                 .observeOn(Schedulers.computation())
-                //剔除用户应用
+                //剔除未限制应用
                 .map(packages -> {
                     short i = 0;
-                    for (i = 0; i < packages.size(); i++) {
-                        if (!model.isSystemApp(packages.get(i))) {
-                            packages.remove(i);
+                    List<PackageInfo> packageInfos = new ArrayList<>();
+                    for (PackageInfo packageInfo:packages) {
+                        if (model.isLimited(packages.get(i))) {
+                            packageInfos.add(packageInfo);
                         }
                     }
-                    return packages;
+                    return packageInfos;
                 })
-                //cpu密集
-                .observeOn(Schedulers.computation())
                 //创建Appitems
                 .map(packages -> {
                     List<ApplistItem> Appitems = new ArrayList<>();
@@ -190,22 +187,16 @@ public class mPresenter implements Presenter {
                     Collections.sort(Appitems);
                     return Appitems;
                 })
-                .map(Appitems -> {
-                    List<BindingAdapterItem> items = new ArrayList<>();
-                    items.addAll(Appitems);
-                    return items;
-                })
-                //等待
-                .observeOn(Schedulers.trampoline())
                 .map(items -> {
-                    viewModels.get(1).setItems(items);
-                    viewModels.get(1).setItems_backup(items);
-                    return "";
+                    viewModels.get(2).setItems(items);
+                    viewModels.get(2).setItems_backup();
+                    return items;
                 })
                 //主线程
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> {
-                    viewModels.get(1).notifyDataSetChanged();
+                .subscribe(items -> {
+                    //viewModels.get(2).RefreshRecycleView(items);
+                    viewModels.get(2).notifyDataSetChanged();
                 });
 
     }
@@ -216,39 +207,42 @@ public class mPresenter implements Presenter {
         this.Refresh_User();
         this.Refresh_System();
         this.Refresh_Limted();
-        LogUtil.d("Refresh_Limted",String.valueOf(viewModels.size()));
     }
 
     @Override
     public void SeaechView(String query, int position) {
+        LogUtil.d("Search","SeaechView");
         if (TextUtils.isEmpty(query)) {
             viewModels.get(position).setItems(viewModels.get(position).getItems_backup());
             viewModels.get(position).notifyDataSetChanged();
-            //viewModel.RefreshRecycleView(viewModel.getItems_backup());
+            //viewModels.get(position).RefreshRecycleView(viewModels.get(position).getItems_backup());
         } else {
             if (SeaechView) {
                 Observable
                         .create((ObservableOnSubscribe<String>)
                                 emitter -> emitter.onNext(MyApplicantion.transformPinYin(query))
                         )
-                        //等待
-                        .subscribeOn(Schedulers.trampoline())
+                        .subscribeOn(Schedulers.newThread())
                         //cpu密集 搜索
                         .observeOn(Schedulers.computation())
                         .map(result -> {
-                            List<BindingAdapterItem> items = new ArrayList<>();
-                            for (BindingAdapterItem item : viewModels.get(position).getItems_backup()) {
-                                if (((ApplistItem) item).getAppName_compare().contains(result)) {
+                            LogUtil.d("Search",result);
+                            List<ApplistItem> items = new ArrayList<>();
+                            for (ApplistItem item : viewModels.get(position).getItems_backup()) {
+                                if ((item).getAppName_compare().contains(result)) {
                                     items.add(item);
                                 }
                             }
-                            viewModels.get(position).setItems(items);
+                            //viewModels.get(position).setItems(items);
+                            LogUtil.d("Search","setItems");
                             return items;
                         })
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(items -> {
-                            //viewModel.setItems(items);
+                            viewModels.get(position).setItems(items);
                             viewModels.get(position).notifyDataSetChanged();
+                            //viewModels.get(position).RefreshRecycleView(items);
+                            LogUtil.d("Search","notifyDataSetChanged()");
                         });
             }
         }

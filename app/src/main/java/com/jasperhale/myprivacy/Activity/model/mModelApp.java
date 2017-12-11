@@ -29,8 +29,6 @@ public class mModelApp implements ModelApp {
         editor = preferences.edit();
     }
 
-
-
     @Override
     public AppSetting_appinstall getAppSetting_appinstall(String packageName) {
         AppSetting_appinstall appSetting_appinstall = new AppSetting_appinstall();
@@ -83,6 +81,20 @@ public class mModelApp implements ModelApp {
         setSharedPreferences(packageName + "/Mnc", appSetting_cell.getMnc());
         setSharedPreferences(packageName + "/Cid", appSetting_cell.getCid());
         setSharedPreferences(packageName + "/Lac", appSetting_cell.getLac());
+    }
+
+    @Override
+    public boolean getApp(String packageName) {
+        return getSharedPreferences(packageName+"/InstalledApp")||
+                getSharedPreferences(packageName+"/RunningApp")||
+                getSharedPreferences(packageName+"/WifiScan")||
+                getSharedPreferences(packageName+"/ConnectionWifi")||
+                getSharedPreferences(packageName+"/CellInfo");
+    }
+
+    @Override
+    public void setApp(String packageName,boolean value) {
+        setSharedPreferences(packageName , value);
     }
 
     //设置普通键值
