@@ -9,10 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jasperhale.myprivacy.Activity.Base.LogUtil;
-import com.jasperhale.myprivacy.Activity.MainActivity;
 import com.jasperhale.myprivacy.Activity.ViewModel.ViewModel;
+import com.jasperhale.myprivacy.Activity.ViewModel.mViewModel;
 import com.jasperhale.myprivacy.Activity.adapter.BindAdapter_applist;
 import com.jasperhale.myprivacy.Activity.presenter.Presenter;
+import com.jasperhale.myprivacy.Activity.presenter.mPresenter;
 import com.jasperhale.myprivacy.R;
 
 
@@ -29,6 +30,8 @@ public class AppListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         LogUtil.d("UI","onCreate"+String.valueOf(position));
+        viewModel = new mViewModel();
+        presenter = new mPresenter(viewModel,position);
         super.onCreate(savedInstanceState);
     }
 
@@ -36,38 +39,26 @@ public class AppListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         LogUtil.d("UI","onCreateView"+String.valueOf(position));
+
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_app_list, container, false);
 
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         binding.recyclerView.setLayoutManager(manager);
-        binding.recyclerView.setAdapter(adapter);
-        binding.recyclerView.setNestedScrollingEnabled(false);
-        binding.recyclerView.setHasFixedSize(true);
-        binding.recyclerView.getLayoutManager().setAutoMeasureEnabled(true);
+        binding.recyclerView.setAdapter(viewModel.getAdapter());
 
+        binding.recyclerView.setNestedScrollingEnabled(false);
+        //binding.recyclerView.setHasFixedSize(true);
+        //binding.recyclerView.getLayoutManager().setAutoMeasureEnabled(true);
+
+        initSwipeRefresh();
         return binding.getRoot();
     }
 
     @Override
     public void onStart() {
         LogUtil.d("UI","onStart()"+String.valueOf(position));
-        switch (position) {
-            case 0:
-                LogUtil.d("UI","presenter.Refresh_User();");
-                ((MainActivity)getActivity()).presenter.Refresh_User();
-                break;
-            case 1:
-                LogUtil.d("UI","presenter.Refresh_System();");
-                ((MainActivity)getActivity()).presenter.Refresh_System();
-                break;
-            case 2:
-                LogUtil.d("UI","presenter.Refresh_Limted();");
-                ((MainActivity)getActivity()).presenter.Refresh_Limted();
-                break;
-            default:
-                break;
-        }
+        presenter.RefreshView();
         super.onStart();
     }
 
@@ -92,14 +83,26 @@ public class AppListFragment extends Fragment {
     @Override
     public void onDestroy() {
         LogUtil.d("UI","onDestroy"+String.valueOf(position));
+        viewModel = null;
+        presenter = null;
         super.onDestroy();
     }
 
+
+    private void initSwipeRefresh() {
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            presenter.RefreshView();
+            binding.swipeRefreshLayout.setRefreshing(false);
+        });
+    }
     public void setPosition(int position) {
         this.position = position;
     }
 
-    /*public void setPresenter(Presenter presenter) {
-        this.presenter = presenter;
-    }*/
+    public Presenter getPresenter() {
+        return presenter;
+    }
+    public void Search(String query){
+        presenter.SeaechView(query);
+    }
 }

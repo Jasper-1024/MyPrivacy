@@ -15,6 +15,9 @@ public interface ViewModel {
     //设置adapter
     void setAdapter(BindAdapter_applist adapter);
 
+    //获取adapter
+    BindAdapter_applist getAdapter();
+
     //获取List<BindingAdapterItem>
     List<ApplistItem> getItems();
 

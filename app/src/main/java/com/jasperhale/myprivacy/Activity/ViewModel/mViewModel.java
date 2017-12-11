@@ -24,7 +24,8 @@ import io.reactivex.schedulers.Schedulers;
 public class mViewModel implements ViewModel {
     private BindAdapter_applist adapter = new BindAdapter_applist();
 
-    public BindAdapter_applist getAdapter(){
+    @Override
+    public BindAdapter_applist getAdapter() {
         return adapter;
     }
 
@@ -76,12 +77,7 @@ public class mViewModel implements ViewModel {
 
     @Override
     public void RefreshRecycleView(List<ApplistItem> items) {
-
-
         LogUtil.d("UI", String.valueOf(items.size()));
-
-
-
         Observable
                 .create((ObservableOnSubscribe<String>)
                         emitter -> emitter.onNext("")
@@ -92,53 +88,10 @@ public class mViewModel implements ViewModel {
                 .map(s -> {
                     return DiffUtil.calculateDiff(new DiffCallBack_ApplistItem(adapter.getItems(), items), false);
                 })
-                //Android.mainThread()
-                //Schedulers.trampoline()
-                //.observeOn(AndroidSchedulers.mainThread())
-                .observeOn(Schedulers.trampoline())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(diffResult -> {
-                    LogUtil.d("UI", "DiffUtil.calculateDiff");
                     diffResult.dispatchUpdatesTo(adapter);
-                    LogUtil.d("UI", "DiffUtil.calculateDiff2");
                     adapter.setItems(items);
-                    LogUtil.d("UI", "DiffUtil.calculateDiff3");
-                    adapter.notifyDataSetChanged();
                 });
-
-        /*
-        DiffUtil.DiffResult diffResults = DiffUtil.calculateDiff(new DiffCallBack_ApplistItem(adapter.getItems(), items), true);
-        //利用DiffUtil.DiffResult对象的dispatchUpdatesTo（）方法，传入RecyclerView的Adapter，轻松成为文艺青年
-        diffResult.dispatchUpdatesTo(adapter);
-        //别忘了将新数据给Adapter
-        adapter.setItems(items);
-        */
-        /*
-        Pair<DiffUtil.DiffResult, List<ApplistItem>> initialPair = Pair.create(null, items);
-        Observable
-                .create((ObservableOnSubscribe<Pair<DiffUtil.DiffResult, List<ApplistItem>>>)
-                        emitter -> emitter.onNext(initialPair)
-                )
-                .subscribeOn(Schedulers.trampoline())
-                //cpu密集
-                .observeOn(Schedulers.computation())
-                //.observeOn(Schedulers.trampoline())
-                .map(Pair_Applist -> {
-                    List<ApplistItem> items1 = Pair_Applist.second;
-                    //利用DiffUtil.calculateDiff()方法，传入一个规则DiffUtil.Callback对象，和是否检测移动item的 boolean变量，得到DiffUtil.DiffResult 的对象
-                    DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCallBack_ApplistItem(adapter.getItems(), items1), false);
-                    return Pair.create(diffResult, items1);
-                })
-                //Android.mainThread()
-                //Schedulers.trampoline()
-                //.observeOn(AndroidSchedulers.mainThread())
-                //.observeOn(Schedulers.newThread())
-                .observeOn(Schedulers.trampoline())
-                .subscribe(Pair_Applist -> {
-                    DiffUtil.DiffResult diffResult = Pair_Applist.first;
-                    //传入RecyclerView的Adapter
-                    diffResult.dispatchUpdatesTo(adapter);
-                    adapter.setItems(Pair_Applist.second);
-                });*/
-
     }
 }

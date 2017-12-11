@@ -43,7 +43,7 @@ public class BindAdapter_applist extends RecyclerView.Adapter<BindingHolder> {
                 .create((ObservableOnSubscribe<List<ApplistItem>>)
                         emitter -> emitter.onNext(items)
                 )
-                //cpu密集 排序
+                //cpu密集
                 .observeOn(Schedulers.computation())
                 .subscribe(items -> items_backup.addAll(items));
     }

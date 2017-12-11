@@ -19,15 +19,8 @@ import com.jasperhale.myprivacy.Activity.Base.BaseActivity;
 import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 import com.jasperhale.myprivacy.Activity.View.AppListFragment;
 import com.jasperhale.myprivacy.Activity.View.SettingActivity;
-import com.jasperhale.myprivacy.Activity.ViewModel.ViewModel;
-import com.jasperhale.myprivacy.Activity.ViewModel.mViewModel;
-import com.jasperhale.myprivacy.Activity.presenter.Presenter;
-import com.jasperhale.myprivacy.Activity.presenter.mPresenter;
 import com.jasperhale.myprivacy.R;
 import com.jasperhale.myprivacy.databinding.ActivityMainBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener, ViewPager.OnPageChangeListener {
@@ -36,14 +29,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
     private MainActivity.SectionsPagerAdapter mSectionsPagerAdapter;
     private Toolbar toolbar;
     private SearchView searchView;
-
-    public Presenter presenter;
-
-    private List<AppListFragment> appListFragment = new ArrayList<>(3);
-    private List<ViewModel> viewModels = new ArrayList<>(3);
-    private ViewModel User_viewModel;
-    private ViewModel System_viewModel;
-    private ViewModel Limted_viewModel;
 
 
     @Override
@@ -63,10 +48,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
         binding.viewPager.setOffscreenPageLimit(2);
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
-
-        //获取Presenter实例
-        presenter = new mPresenter();
-
     }
 
 
@@ -77,8 +58,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public void onDestroy() {
-        //释放viemmodel
-        viewModels.clear();
         super.onDestroy();
     }
 
@@ -102,7 +81,6 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 return true;
             case R.id.about:
                 Toast.makeText(this, "about", Toast.LENGTH_SHORT).show();
-                presenter.Refresh_User();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -111,10 +89,9 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public boolean onQueryTextChange(String query) {
-        /*
         LogUtil.d("Search",query);
-        presenter.SeaechView(query, binding.tabLayout.getSelectedTabPosition());
-        */
+        AppListFragment appListFragment =  (AppListFragment)mSectionsPagerAdapter.instantiateItem(binding.viewPager,binding.tabLayout.getSelectedTabPosition());
+        appListFragment.Search(query);
         return true;
     }
 
@@ -138,8 +115,11 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
 
     @Override
     public void onPageSelected(int position) {
+
         if (!searchView.getQuery().equals("")){
-            //presenter.SeaechView(searchView.getQuery().toString(),position);
+            LogUtil.d("UI",String.valueOf(position));
+            AppListFragment appListFragment =  (AppListFragment)mSectionsPagerAdapter.instantiateItem(binding.viewPager,position);
+            appListFragment.Search(searchView.getQuery().toString());
         }
     }
 
@@ -155,15 +135,7 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
             //新建Fragment mViewModel 实例
             AppListFragment fragment = new AppListFragment();
             fragment.setPosition(position);
-            appListFragment.add(position, fragment);
-
-            viewModels.add(position, new mViewModel());
-            viewModels.get(position).setAdapter(appListFragment.get(position).getAdapter());
-
-            presenter.addViewModel(viewModels.get(position), position);
-            //fragment.setPresenter(presenter);
-
-            return appListFragment.get(position);
+            return fragment;
         }
 
         @Override
