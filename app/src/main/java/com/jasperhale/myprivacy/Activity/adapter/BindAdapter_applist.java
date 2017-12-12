@@ -141,7 +141,7 @@ public class BindAdapter_applist extends RecyclerView.Adapter<BindingHolder> {
                         items.get(position).setAppName(payload.getString("AppName"));
                         break;
                     case "AppIcon":
-                        Bitmap bitmap = (Bitmap)payload.getParcelable("AppIcon");
+                        Bitmap bitmap = payload.getParcelable("AppIcon");
                         items.get(position).setAppIcon(new BitmapDrawable(MyApplicantion.getContext().getResources(),bitmap));
                         break;
                     default:

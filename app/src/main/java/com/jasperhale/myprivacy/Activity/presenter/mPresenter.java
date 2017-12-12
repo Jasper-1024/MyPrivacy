@@ -2,13 +2,11 @@ package com.jasperhale.myprivacy.Activity.presenter;
 
 import android.content.pm.PackageInfo;
 import android.text.TextUtils;
-import android.util.Log;
 
 
 import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 import com.jasperhale.myprivacy.Activity.Base.MyApplicantion;
 import com.jasperhale.myprivacy.Activity.ViewModel.ViewModel;
-import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 import com.jasperhale.myprivacy.Activity.model.Model;
 import com.jasperhale.myprivacy.Activity.model.mModel;
@@ -22,8 +20,6 @@ import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-import static io.reactivex.android.schedulers.AndroidSchedulers.mainThread;
-
 
 /**
  * Created by ZHANG on 2017/11/1.
@@ -34,6 +30,7 @@ public class mPresenter implements Presenter {
     private static boolean SeaechView = true;
     private final Model model;
     private ViewModel viewModel;
+    private boolean isRefreshView = true;
     private int position;
 
     public mPresenter(ViewModel viewModel, int position) {
@@ -45,76 +42,78 @@ public class mPresenter implements Presenter {
     @Override
     public void RefreshView() {
         LogUtil.d("UI", "RefreshView()" + String.valueOf(position));
-        Observable
-                .create((ObservableOnSubscribe<String>) emitter -> emitter.onNext("")
-                )
-                //等待
-                .subscribeOn(Schedulers.trampoline())
-                //io密集
-                .observeOn(Schedulers.computation())
-                //获取已安装应用
-                .map(s -> {
-                    return model.getPackages();
-                })
-                //cpu密集
-                .observeOn(Schedulers.computation())
-                //剔除对应应用
-                .map(packages -> {
-                    short i = 0;
-                    List<PackageInfo> items = new ArrayList<>();
-                    switch (position) {
-                        case 0: {
-                            for (PackageInfo packageInfo : packages) {
-                                if (!model.isSystemApp(packageInfo)) {
-                                    items.add(packageInfo);
+        if (isRefreshView) {
+            isRefreshView = false;
+            Observable
+                    .create((ObservableOnSubscribe<String>) emitter -> emitter.onNext("")
+                    )
+                    //等待
+                    .subscribeOn(Schedulers.trampoline())
+                    //io密集
+                    .observeOn(Schedulers.computation())
+                    //获取已安装应用
+                    .map(s -> model.getPackages())
+                    //cpu密集
+                    //.observeOn(Schedulers.computation())
+                    //剔除对应应用
+                    .map(packages -> {
+                        short i = 0;
+                        List<PackageInfo> items = new ArrayList<>();
+                        switch (position) {
+                            case 0: {
+                                for (PackageInfo packageInfo : packages) {
+                                    if (!model.isSystemApp(packageInfo)) {
+                                        items.add(packageInfo);
+                                    }
                                 }
+                                break;
                             }
-                            break;
-                        }
-                        case 1: {
-                            for (PackageInfo packageInfo : packages) {
-                                if (model.isSystemApp(packageInfo)) {
-                                    items.add(packageInfo);
+                            case 1: {
+                                for (PackageInfo packageInfo : packages) {
+                                    if (model.isSystemApp(packageInfo)) {
+                                        items.add(packageInfo);
+                                    }
                                 }
+                                break;
                             }
-                            break;
-                        }
-                        case 2: {
-                            for (PackageInfo packageInfo : packages) {
-                                if (model.isLimited(packageInfo)) {
-                                    items.add(packageInfo);
+                            case 2: {
+                                for (PackageInfo packageInfo : packages) {
+                                    if (model.isLimited(packageInfo)) {
+                                        items.add(packageInfo);
+                                    }
                                 }
+                                break;
                             }
-                            break;
+                            default:
+                                break;
                         }
-                        default:
-                            break;
-                    }
-                    return items;
-                })
-                //cpu密集
-                .observeOn(Schedulers.computation())
-                //创建Appitems
-                .map(packages -> {
-                    List<ApplistItem> Appitems = new ArrayList<>();
-                    for (PackageInfo pac : packages) {
-                        Appitems.add(model.creatApplistItem(pac));
-                    }
-                    //排序
-                    Collections.sort(Appitems);
-                    return Appitems;
-                })
-                .map(items -> {
-                    //viewModel.setItems(items);
-                    viewModel.setItems_backup(items);
-                    return items;
-                })
-                //主线程
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(items -> {
-                    viewModel.RefreshRecycleView(items);
-                    //viewModel.notifyDataSetChanged();
-                });
+                        return items;
+                    })
+                    //cpu密集
+                    //.observeOn(Schedulers.computation())
+                    //创建Appitems
+                    .map(packages -> {
+                        List<ApplistItem> Appitems = new ArrayList<>();
+                        for (PackageInfo pac : packages) {
+                            Appitems.add(model.creatApplistItem(pac));
+                        }
+                        //排序
+                        Collections.sort(Appitems);
+                        return Appitems;
+                    })
+                    .map(items -> {
+                        //viewModel.setItems(items);
+                        viewModel.setItems_backup(items);
+                        return items;
+                    })
+                    //主线程
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(items -> {
+                        viewModel.RefreshRecycleView(items);
+                        //viewModel.notifyDataSetChanged();
+                    });
+            isRefreshView = true;
+        }
     }
 
     @Override
@@ -134,7 +133,7 @@ public class mPresenter implements Presenter {
                         //cpu密集 搜索
                         .observeOn(Schedulers.computation())
                         .map(result -> {
-                            LogUtil.d("Search",result);
+                            LogUtil.d("Search", result);
                             List<ApplistItem> items = new ArrayList<>();
                             for (ApplistItem item : viewModel.getItems_backup()) {
                                 if ((item).getAppName_compare().contains(result)) {
@@ -142,7 +141,7 @@ public class mPresenter implements Presenter {
                                 }
                             }
                             //viewModel.setItems(items);
-                            LogUtil.d("Search","setItems");
+                            LogUtil.d("Search", "setItems");
                             return items;
                         })
                         .observeOn(AndroidSchedulers.mainThread())
@@ -150,7 +149,7 @@ public class mPresenter implements Presenter {
                             //viewModel.setItems(items);
                             //viewModel.notifyDataSetChanged();
                             viewModel.RefreshRecycleView(items);
-                            LogUtil.d("Search","notifyDataSetChanged()");
+                            LogUtil.d("Search", "notifyDataSetChanged()");
                         });
             }
         }

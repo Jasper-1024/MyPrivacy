@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.util.DiffUtil;
-import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 
 
 import java.util.List;
@@ -106,7 +105,7 @@ public class DiffCallBack_ApplistItem extends DiffUtil.Callback{
             payload.putString("AppName", newBean.getAppName());
         }
         if (!oldBean.getAppIcon().equals(newBean.getAppIcon())) {
-            Bitmap bitmap = (Bitmap) ((BitmapDrawable) newBean.getAppIcon()).getBitmap();
+            Bitmap bitmap = ((BitmapDrawable) newBean.getAppIcon()).getBitmap();
             payload.putParcelable("AppIcon", bitmap);
         }
         /*

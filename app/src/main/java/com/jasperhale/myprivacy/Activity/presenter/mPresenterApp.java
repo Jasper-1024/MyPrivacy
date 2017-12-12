@@ -1,8 +1,6 @@
 package com.jasperhale.myprivacy.Activity.presenter;
 
 
-import android.util.Log;
-
 import com.jasperhale.myprivacy.Activity.ViewModel.ViewModelApp;
 import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.AppSetting_appinstall;
@@ -62,10 +60,10 @@ public class mPresenterApp implements PresenterApp {
         Observable
                 .create((ObservableOnSubscribe<List<BindingAdapterItem>>) emitter -> emitter.onNext(viewModelApp.getItems())
                 )
-                //新线程
-                .subscribeOn(Schedulers.newThread())
+                //io线程
+                .subscribeOn(Schedulers.io())
                 //io密集
-                .observeOn(Schedulers.io())
+                //.observeOn(Schedulers.single())
                 .subscribe(items -> {
                     modelApp.setAppSetting_appinstall(viewModelApp.getPackageName(),(AppSetting_appinstall) items.get(0));
                     modelApp.setAppSetting_wifi(viewModelApp.getPackageName(),(AppSetting_wifi) items.get(1));
@@ -77,8 +75,6 @@ public class mPresenterApp implements PresenterApp {
                 )
                 //新线程
                 .subscribeOn(Schedulers.newThread())
-                .subscribe(value -> {
-                    modelApp.setApp(viewModelApp.getPackageName(),value);
-                });
+                .subscribe(value -> modelApp.setApp(viewModelApp.getPackageName(),value));
     }
 }

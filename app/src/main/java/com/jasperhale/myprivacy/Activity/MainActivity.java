@@ -12,11 +12,11 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 
 import com.jasperhale.myprivacy.Activity.Base.BaseActivity;
 import com.jasperhale.myprivacy.Activity.Base.LogUtil;
+import com.jasperhale.myprivacy.Activity.View.AboutActivity;
 import com.jasperhale.myprivacy.Activity.View.AppListFragment;
 import com.jasperhale.myprivacy.Activity.View.SettingActivity;
 import com.jasperhale.myprivacy.R;
@@ -80,7 +80,8 @@ public class MainActivity extends BaseActivity implements SearchView.OnQueryText
                 startActivity(intent);
                 return true;
             case R.id.about:
-                Toast.makeText(this, "about", Toast.LENGTH_SHORT).show();
+                Intent intent_about = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent_about);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

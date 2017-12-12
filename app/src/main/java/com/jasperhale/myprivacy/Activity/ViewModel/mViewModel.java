@@ -1,11 +1,9 @@
 package com.jasperhale.myprivacy.Activity.ViewModel;
 
-import android.support.v4.util.Pair;
 import android.support.v7.util.DiffUtil;
 
 import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 import com.jasperhale.myprivacy.Activity.adapter.BindAdapter_applist;
-import com.jasperhale.myprivacy.Activity.adapter.BindingAdapterItem;
 import com.jasperhale.myprivacy.Activity.item.ApplistItem;
 import com.jasperhale.myprivacy.Activity.item.DiffCallBack_ApplistItem;
 
@@ -85,9 +83,7 @@ public class mViewModel implements ViewModel {
                 .subscribeOn(Schedulers.trampoline())
                 //cpu密集
                 .observeOn(Schedulers.newThread())
-                .map(s -> {
-                    return DiffUtil.calculateDiff(new DiffCallBack_ApplistItem(adapter.getItems(), items), false);
-                })
+                .map(s -> DiffUtil.calculateDiff(new DiffCallBack_ApplistItem(adapter.getItems(), items), false))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(diffResult -> {
                     diffResult.dispatchUpdatesTo(adapter);

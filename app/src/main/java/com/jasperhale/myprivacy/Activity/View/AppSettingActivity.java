@@ -79,7 +79,7 @@ public class AppSettingActivity extends BaseActivity  {
     }
 
 
-    public void initDataBinding() {
+    private void initDataBinding() {
         LinearLayoutManager manager = new LinearLayoutManager(getApplicationContext());
         binding.recyclerViewAppsetting.setLayoutManager(manager);
         binding.recyclerViewAppsetting.setAdapter(adapter);

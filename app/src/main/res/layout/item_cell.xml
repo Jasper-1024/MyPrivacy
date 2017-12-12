@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <import type="android.view.View" />
@@ -23,12 +23,13 @@
             android:textSize="16sp" />
         <Switch
             android:paddingTop="8dp"
-            android:paddingLeft="8dp"
+            android:paddingStart="8dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:checked="@={item.cellInfo}"
             android:text="禁止获取基站信息"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="RtlSymmetry" />
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"

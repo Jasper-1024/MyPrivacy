@@ -2,12 +2,9 @@ package com.jasperhale.myprivacy.Activity.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-
-import com.jasperhale.myprivacy.Activity.Base.LogUtil;
 
 
 import java.util.ArrayList;

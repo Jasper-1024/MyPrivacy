@@ -32,6 +32,7 @@ import static android.content.ContentValues.TAG;
  * Created by ZHANG on 2017/10/29.
  */
 
+@SuppressWarnings("ALL")
 public class ApplistItem extends BaseItem implements Comparable<ApplistItem>,Parcelable {
 
     @Override

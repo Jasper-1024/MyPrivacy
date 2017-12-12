@@ -10,6 +10,7 @@
             app:showAsAction="always"
             />
         <item
+            android:visible="false"
             android:id="@+id/setting"
             android:title="@string/setting"
             app:showAsAction="never" />

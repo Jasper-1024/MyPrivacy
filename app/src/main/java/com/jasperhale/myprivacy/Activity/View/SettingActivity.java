@@ -17,7 +17,7 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        Toolbar toolbar = findViewById(R.id.setting_toolbar);
+        Toolbar toolbar = findViewById(R.id.setting);
         toolbar.setTitle("设置");
         setSupportActionBar(toolbar);
 
