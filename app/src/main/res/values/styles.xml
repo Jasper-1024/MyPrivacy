@@ -1,4 +1,13 @@
-<resources>
+<!--suppress AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection, AndroidDomInspection -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <attr name="expander" format="reference" />
+    <attr name="hookError" format="reference" />
+    <attr name="hookInstalled" format="reference" />
+    <attr name="appPersistent" format="reference" />
+    <attr name="appSettings" format="reference" />
+    <attr name="colorSystem" format="reference" />
+    <attr name="colorDrawerScrim" format="reference" />
+    <attr name="colorDrawerBackground" format="reference" />
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -8,8 +17,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" tools:keep="@style/AppTheme_AppBarOverlay" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" tools:keep="@style/AppTheme_PopupOverlay" />
 
 </resources>

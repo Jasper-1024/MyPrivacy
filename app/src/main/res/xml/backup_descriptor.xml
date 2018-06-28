@@ -4,5 +4,5 @@
     <!-- Exclude the shared preferences file that contains the GCM registrationId -->
     <exclude
         domain="sharedpref"
-        path="AppSetting.xml" />
+        path="menu_list.xml" />
 </full-backup-content>

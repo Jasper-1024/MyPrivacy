@@ -1,20 +1,25 @@
 <resources>
     <string name="app_name">MyPrivacy</string>
-    <string name="ShowSystemApp">SystemApp</string>
-    <string name="xposeddescription">限制部分Appops无法覆盖隐私权限</string>
-    <string name="about">关于</string>
-    <string name="setting">设置</string>
-    <string name="AppSetting_Wifi">Wifi</string>
-    <string name="AppSetting_AppLIst">AppLIst</string>
-    <string name="AppSetting_Applist_title">InstalledApplist</string>
-    <string name="AppSetting_Applist_Description">Description</string>
-    <string name="appsetting_Image_contentDescription">MyPrivacy</string>
-    <string name="AppSetting_Cell">Cell</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_about">AboutActivity</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="title_activity_about2">About2Activity</string>
+    <string name="linear_layout_manager">android.support.v7.widget.LinearLayoutManager</string>
 
+    <string name="menu_show">Show</string>
+    <string name="menu_show_user">Show user apps</string>
+    <string name="menu_show_system">Show system apps</string>
+    <string name="menu_show_all">Show all apps</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_help">Help</string>
+
+    <string name="AppLication">AppLication</string>
+    <string name="Network">Network</string>
+    <string name="Location">Location</string>
+
+    <string name="xposeddescription">Limited part of Appops can not cover privacy rights</string>
+
+    <string name="menu_list">menu_list</string>
+    <string name="menu_list_key">menu_list_key</string>
+    <string name="menu_list_default">user</string>
+    <string name="menu_list_user">user</string>
+    <string name="menu_list_system">system</string>
+    <string name="menu_list_all">all</string>
 </resources>
