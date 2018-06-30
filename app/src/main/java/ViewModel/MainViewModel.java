@@ -20,6 +20,7 @@ import Repository.MainRepository;
 import Repository.Model.AppInfo;
 import Repository.Repository;
 import Ui.Item.AppItem;
+import Ui.Item.LoadItem;
 import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -45,6 +46,10 @@ public class MainViewModel extends ViewModel implements LifecycleObserver {
     public MainViewModel() {
         repository = new MainRepository();
         observer_ListItem = Observer_ListItem_creat();
+
+        ObservableArrayList<AppItem> items = new ObservableArrayList<AppItem>();
+        items.add(new LoadItem());
+        ListItem.postValue(items);
     }
 
     public MutableLiveData<ObservableArrayList<AppItem>> getListData() {

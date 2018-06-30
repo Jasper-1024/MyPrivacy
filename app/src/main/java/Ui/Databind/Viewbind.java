@@ -3,6 +3,7 @@ package Ui.Databind;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
 import android.net.Uri;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 
@@ -13,9 +14,11 @@ import com.bumptech.glide.request.RequestOptions;
 import Base.LogUtil;
 import Repository.Model.AppInfo;
 import Repository.Room.Base.BaseHookGroup;
+import Ui.Item.DiffCallBack;
 import io.reactivex.Observable;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class Viewbind {
     private final static String TAG = "Viewbind";
@@ -57,8 +60,8 @@ public class Viewbind {
                             LogUtil.d(TAG, "binditems"+"2");
                             adapter.setItems(items);
                             diffResult.dispatchUpdatesTo(adapter);
-                        });
-                */
+                        });*/
+
 
                 Observable
                         .create((ObservableOnSubscribe<String>)

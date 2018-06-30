@@ -53,6 +53,12 @@ public class HookActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        hookViewModel.save();
+        super.onBackPressed();
+    }
+
     //返回按钮
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

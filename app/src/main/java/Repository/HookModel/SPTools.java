@@ -46,4 +46,5 @@ class SPTools {
         return preferences.getInt(key, i);
     }
 
+
 }

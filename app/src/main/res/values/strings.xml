@@ -9,6 +9,7 @@
     <string name="menu_show_all">Show all apps</string>
     <string name="menu_search">Search</string>
     <string name="menu_help">Help</string>
+    <string name="menu_about">About</string>
 
     <string name="AppLication">AppLication</string>
     <string name="Network">Network</string>
@@ -22,4 +23,19 @@
     <string name="menu_list_user">user</string>
     <string name="menu_list_system">system</string>
     <string name="menu_list_all">all</string>
+
+    <string name="about">About</string>
+    <string name="About">About</string>
+    <string name="Introduction">Based on Xposed framework supplement Appops's permissions control.</string>
+
+    <string name="donation">Donation</string>
+    <string name="Donation">if my job is helpful to you, you are interested in donating, you can click button </string>
+    <string name="Amount">￥2.5</string>
+    <string name="or">or you can easily start this project on <a href="https://github.com/Jasper-1024/MyPrivacy">Github</a>  \nthank you very much!</string>
+
+    <string name="address">Github address \n -> https://github.com/Jasper-1024/MyPrivacy</string>
+    <string name="Bug">If you encounter a bug , start a new  <a href="https://github.com/Jasper-1024/MyPrivacy/issues">Github issue</a> </string>
+    <string name="Email">If you have other questions please email me \n -> ljy087621@gmail.com</string>
+    <string name="Blog">Welcome to my blog \n -> https://jasper-1024.github.io/</string>
+
 </resources>

@@ -12,7 +12,7 @@ import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class ActivityManager {
     private static final String Mark = "Xposed.MyPrivacy.AM ";
-    private static final String TAG = "";
+    private static final String TAG = " ";
     private static final String Class = "AM";
     private static final String ClassName = "android.app.ActivityManager";
 
@@ -48,7 +48,7 @@ public class ActivityManager {
     private static void getRecentTasks() {
         XposedBridge.log(Mark + lpparam.packageName + TAG + "getRecentTasks");
         try {
-            findAndHookMethod(ClassName, lpparam.classLoader, "getRecentTasks", int.class, new XC_MethodHook() {
+            findAndHookMethod(ClassName, lpparam.classLoader, "getRecentTasks", int.class,int.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     List<android.app.ActivityManager.RecentTaskInfo> xp = new ArrayList<>();
@@ -65,7 +65,7 @@ public class ActivityManager {
     private static void getRunningAppProcesses() {
         XposedBridge.log(Mark + lpparam.packageName + TAG + "getRunningAppProcesses");
         try {
-            findAndHookMethod(ClassName, lpparam.classLoader, "getRunningAppProcesses", int.class, new XC_MethodHook() {
+            findAndHookMethod(ClassName, lpparam.classLoader, "getRecentTasks", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     List<android.app.ActivityManager.RunningAppProcessInfo> xp = new ArrayList<>();

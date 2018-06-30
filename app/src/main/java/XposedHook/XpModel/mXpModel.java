@@ -12,22 +12,24 @@ public class mXpModel {
 
     private static XSharedPreferences prefs ;
 
+    /*
     static {
         prefs = new XSharedPreferences(PACKAGE_NAME, "MyPrivacy");
         prefs.makeWorldReadable();
-    }
+    }*/
 
     public static void prefs_init() {
-        /*
         prefs = new XSharedPreferences(PACKAGE_NAME, "MyPrivacy");
         prefs.makeWorldReadable();
-        */
         XposedBridge.log(TAG + "preferences init");
     }
 
     private static XSharedPreferences getPrefs() {
         if (prefs == null) {
-            prefs_init();
+            prefs = new XSharedPreferences(PACKAGE_NAME, "MyPrivacy");
+            prefs.makeWorldReadable();
+        } else {
+            prefs.reload();
         }
         return prefs;
     }

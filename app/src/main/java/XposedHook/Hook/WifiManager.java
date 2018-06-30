@@ -1,7 +1,19 @@
 package XposedHook.Hook;
 
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.telephony.CellInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import XposedHook.XpModel.mXpModel;
+import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XSharedPreferences;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
+
+import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 
 public class WifiManager {
     private static final String Mark = "MyprivacyHook";
@@ -11,19 +23,55 @@ public class WifiManager {
 
     private static XC_LoadPackage.LoadPackageParam lpparam;
 
-    public static WifiManager get(XC_LoadPackage.LoadPackageParam lpparam, XSharedPreferences prefs) {
+    public static WifiManager get(XC_LoadPackage.LoadPackageParam lpparam) {
         WifiManager.lpparam = lpparam;
         return WifiManagerHolder.wifiManager;
     }
 
     public static void handle() {
-        /*
-        if (mXpModel.getLimted(lpparam.packageName,Class,"getInstalledApplications")){
-            getInstalledApplications();
-        }*/
+        if (mXpModel.getLimted(lpparam.packageName,Class,"getConfiguredNetworks")){
+            getConfiguredNetworks();
+        }
+        if (mXpModel.getLimted(lpparam.packageName,Class,"getScanResults")){
+            getScanResults();
+        }
     }
 
     private static class WifiManagerHolder {
         private static final WifiManager wifiManager= new WifiManager();
+    }
+
+    //返回用户配置的所有wifi网络列表
+    private static void getConfiguredNetworks() {
+        XposedBridge.log(Mark + lpparam.packageName + TAG + "getConfiguredNetworks");
+        try {
+            findAndHookMethod(ClassName, lpparam.classLoader, "getConfiguredNetworks", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    List<WifiConfiguration> xp = new ArrayList<>();
+                    xp.clear();
+                    param.setResult(xp);
+                }
+            });
+        } catch (NoSuchMethodError e) {
+            XposedBridge.log(Mark + lpparam.packageName + TAG + e.toString());
+        }
+    }
+
+    //返回wifi扫描结果
+    private static void getScanResults() {
+        XposedBridge.log(Mark + lpparam.packageName + TAG + "getScanResults");
+        try {
+            findAndHookMethod(ClassName, lpparam.classLoader, "getScanResults", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
+                    //List<ScanResult> xp = new ArrayList<>();
+                    //xp.clear();
+                    param.setResult(null);
+                }
+            });
+        } catch (NoSuchMethodError e) {
+            XposedBridge.log(Mark + lpparam.packageName + TAG + e.toString());
+        }
     }
 }

@@ -3,6 +3,7 @@ package Ui.Activity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -16,10 +17,14 @@ import android.view.MenuItem;
 
 import Base.BaseActivity;
 import Base.LogUtil;
+import Base.MyApplicantion;
 import Ui.Databind.RecycleAdapter;
 import ViewModel.MainViewModel;
+
 import com.jasperhale.myprivacy.R;
 import com.jasperhale.myprivacy.databinding.ActivityMainBinding;
+
+import static android.support.constraint.Constraints.TAG;
 
 public class MainActivity extends BaseActivity {
 
@@ -109,7 +114,7 @@ public class MainActivity extends BaseActivity {
 
         Log.i(TAG, "Selected option " + item.getTitle());
         switch (item.getItemId()) {
-            case R.id.menu_show:
+            case R.id.menu_show: {
                 String show = get_menu_list();
                 switch (show) {
                     case "user":
@@ -123,6 +128,7 @@ public class MainActivity extends BaseActivity {
                         break;
                 }
                 return true;
+            }
 
             case R.id.menu_show_user:
             case R.id.menu_show_system:
@@ -145,8 +151,15 @@ public class MainActivity extends BaseActivity {
                 mainViewModel.changList();
                 return true;
 
-            case R.id.menu_help:
+            case R.id.menu_help: {
+
                 return true;
+            }
+            case R.id.menu_about: {
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+                startActivity(intent);
+                return true;
+            }
 
             default:
                 return super.onOptionsItemSelected(item);

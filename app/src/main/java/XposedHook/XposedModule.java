@@ -1,6 +1,15 @@
 package XposedHook;
 
 import XposedHook.Hook.ActivityManager;
+import XposedHook.Hook.AppWidgetManager;
+import XposedHook.Hook.Location;
+import XposedHook.Hook.LocationManager;
+import XposedHook.Hook.NetworkInfo;
+import XposedHook.Hook.NetworkInterface;
+import XposedHook.Hook.PackageManager;
+import XposedHook.Hook.TelephonyManager;
+import XposedHook.Hook.WifiInfo;
+import XposedHook.Hook.WifiManager;
 import XposedHook.XpModel.mXpModel;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.IXposedHookZygoteInit;
@@ -19,9 +28,17 @@ public class XposedModule implements IXposedHookZygoteInit, IXposedHookLoadPacka
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) throws Throwable {
 
-        XposedBridge.log(TAG + lpparam.packageName + "  handleLoadPackage");
-        //InstalledApp.getInstalledApp(lpparam,prefs).handle();
+        XposedBridge.log(TAG + lpparam.packageName + " handleLoadPackage");
         ActivityManager.get(lpparam).handle();
+        AppWidgetManager.get(lpparam).handle();
+        Location.get(lpparam).handle();
+        LocationManager.get(lpparam).handle();
+        NetworkInfo.get(lpparam).handle();
+        NetworkInterface.get(lpparam).handle();
+        PackageManager.get(lpparam).handle();
+        TelephonyManager.get(lpparam).handle();
+        WifiInfo.get(lpparam).handle();
+        WifiManager.get(lpparam).handle();
     }
 
 }

@@ -32,6 +32,12 @@ public class ApplicationPackageManager {
         if (mXpModel.getLimted(lpparam.packageName,Class,"getInstalledApplications")){
             getInstalledApplications();
         }
+        if (mXpModel.getLimted(lpparam.packageName,Class,"getInstalledPackages")){
+            getInstalledPackages();
+        }
+        if (mXpModel.getLimted(lpparam.packageName,Class,"getPackageInfo")){
+            getPackageInfo();
+        }
     }
 
     private static class ApplicationPackageManagerAppHolder {
