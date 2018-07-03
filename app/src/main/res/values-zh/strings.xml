@@ -1,0 +1,32 @@
+<resources>
+
+    <string name="menu_show">显示</string>
+    <string name="menu_show_user">用户应用</string>
+    <string name="menu_show_system">系统应用</string>
+    <string name="menu_show_limted">已限制应用</string>
+    <string name="menu_show_all">全部应用</string>
+    <string name="menu_search">搜索</string>
+    <string name="menu_help">帮助</string>
+    <string name="menu_about">关于</string>
+
+    <string name="AppLication">禁止获取应用列表</string>
+    <string name="Network">禁止获取网络数据</string>
+    <string name="Location">禁止GPS定位</string>
+
+    <string name="xposeddescription">限制部分Appops无法覆盖隐私权限</string>
+
+    <string name="about">关于</string>
+    <string name="About">关于</string>
+    <string name="Introduction">基于Xposed框架补充Appops的权限控制.</string>
+
+    <string name="donation">捐赠</string>
+    <string name="Donation">如果我的工作对您有所帮助,您有意捐助,可以请我一个楼下煎饼果子.</string>
+    <string name="Amount">煎饼果子(¥2.5)</string>
+    <string name="or">或者可以随手为这个项目点一个 <a href="https://github.com/Jasper-1024/MyPrivacy">Start</a> ,谢谢 !</string>
+
+    <string name="address">开源地址,\n -> https://github.com/Jasper-1024/MyPrivacy</string>
+    <string name="Bug">此应用还处于完善阶段.\n遇到BUG,你可以发起新的<a href="https://github.com/Jasper-1024/MyPrivacy/issues">Github issue</a> </string>
+    <string name="Email">如果还有其他问题,可以邮件我 \n -> ljy087621@gmail.com</string>
+    <string name="Blog">欢迎访问我的博客 \n -> https://jasper-1024.github.io/</string>
+
+</resources>

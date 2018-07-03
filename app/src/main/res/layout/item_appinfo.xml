@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.jasperhale.myprivacy.Ui.Item.AppItem" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/ApplistIcon"
+            android:layout_width="@android:dimen/app_icon_size"
+            android:layout_height="@android:dimen/app_icon_size"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="8dp"
+            android:onClick="@{item.onClickListener::onClick}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:loadIcon="@{item.appInfo}"
+            android:contentDescription="TODO"
+            tools:ignore="ContentDescription,HardcodedText" />
+
+        <TextView
+            android:id="@+id/ApplistPackageName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:onClick="@{item.onClickListener::onClick}"
+            android:padding="8dp"
+            android:text="@{item.appInfo.appName}"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/ApplistIcon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+</layout>

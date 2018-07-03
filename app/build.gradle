@@ -1,0 +1,108 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.jasperhale.myprivacy"
+        minSdkVersion 21
+        //noinspection OldTargetApi
+        targetSdkVersion 23
+        versionCode 14
+        versionName "2.0.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+}
+
+dependencies {
+
+    //UI
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:design:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+    //glide图片缓存库
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //rxjava
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    //xposed
+    compileOnly 'de.robv.android.xposed:api:82'
+
+    // ViewModel and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+    // alternatively, just ViewModel
+    implementation "android.arch.lifecycle:viewmodel:1.1.1"
+    // alternatively, just LiveData
+    implementation "android.arch.lifecycle:livedata:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+    // Room (use 1.1.0-beta3 for latest beta)
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
+    // Paging
+    implementation "android.arch.paging:runtime:1.0.1"
+    // Test helpers for LiveData
+    testImplementation "android.arch.core:core-testing:1.1.1"
+    // Test helpers for Room
+    testImplementation "android.arch.persistence.room:testing:1.1.1"
+
+    // Java8 support for Lifecycles
+    implementation "android.arch.lifecycle:common-java8:1.1.1"
+
+    // RxJava support for Room (use 1.1.0-beta3 for latest beta)
+    //implementation "android.arch.persistence.room:rxjava2:1.0.0"
+
+    // ReactiveStreams support for LiveData
+    implementation "android.arch.lifecycle:reactivestreams:1.1.1"
+
+    // RxJava support for Paging
+    implementation "android.arch.paging:rxjava2:1.0.1"
+
+    // Guava support for Room
+    implementation "android.arch.persistence.room:guava:1.1.1"
+
+    // Lifecycles only (no ViewModel or LiveData)
+    implementation "android.arch.lifecycle:runtime:1.1.1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
+
+    compileOnly 'de.robv.android.xposed:api:82'
+    //如果需要引入文档，方便查看的话
+    compileOnly 'de.robv.android.xposed:api:82:sources'
+
+    //捐赠
+    implementation 'com.github.didikee:AndroidDonate:0.1.0'
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
