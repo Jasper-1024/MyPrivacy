@@ -12,6 +12,8 @@
     <string name="AppLication">禁止获取应用列表</string>
     <string name="Network">禁止获取网络数据</string>
     <string name="Location">禁止GPS定位</string>
+    <string name="Sensors">禁止获取传感器信息</string>
+    <string name="UserTrack">禁止用户追踪</string>
 
     <string name="xposeddescription">限制部分Appops无法覆盖隐私权限</string>
 

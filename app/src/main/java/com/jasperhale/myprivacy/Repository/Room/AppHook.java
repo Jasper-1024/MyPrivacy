@@ -19,6 +19,8 @@ public class AppHook extends BaseHook {
     public final Group_AppLication appLication;
     public final Group_Network network;
     public final Group_Location location;
+    //public final Group_Sensors sensors;
+    public final Group_UserTrack userTrack;
 
     public AppHook(String packageName) {
         this.packageName = packageName;
@@ -26,6 +28,9 @@ public class AppHook extends BaseHook {
         appLication = new Group_AppLication(MyApplicantion.getContext().getString(R.string.AppLication));
         network = new Group_Network(MyApplicantion.getContext().getString(R.string.Network));
         location = new Group_Location(MyApplicantion.getContext().getString(R.string.Location));
+        //sensors = new Group_Sensors(MyApplicantion.getContext().getString(R.string.Sensors));
+        userTrack = new Group_UserTrack(MyApplicantion.getContext().getString(R.string.UserTrack));
+
     }
 
     @Override
@@ -37,6 +42,8 @@ public class AppHook extends BaseHook {
         items.add(appLication);
         items.add(network);
         items.add(location);
+        //items.add(sensors);
+        items.add(userTrack);
         LogUtil.d("AppHook","getitems");
         return items;
     }

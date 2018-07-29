@@ -16,6 +16,8 @@
     <string name="AppLication">AppLication</string>
     <string name="Network">Network</string>
     <string name="Location">Location</string>
+    <string name="Sensors">Sensors</string>
+    <string name="UserTrack">UserTrack</string>
 
     <string name="xposeddescription">Limited part of Appops can not cover privacy rights</string>
 

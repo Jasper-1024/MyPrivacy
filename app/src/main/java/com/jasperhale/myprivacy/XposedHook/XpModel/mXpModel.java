@@ -39,4 +39,9 @@ public class mXpModel {
         return getPrefs().getBoolean(packageName + Class +"_"+ method, false);
     }
 
+    public static Boolean getAppLimted(String packageName) {
+        XposedBridge.log(TAG + packageName);
+        return getPrefs().getBoolean(packageName, false);
+    }
+
 }

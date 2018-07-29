@@ -27,10 +27,14 @@ public class mHookModel implements HookModel {
                     get(appHook.packageName, appHook.appLication);
                     get(appHook.packageName, appHook.network);
                     get(appHook.packageName, appHook.location);
+                    //get(appHook.packageName, appHook.sensors);
+                    get(appHook.packageName, appHook.userTrack);
 
                     appHook.appLication.value = getValue(appHook.appLication);
                     appHook.network.value = getValue(appHook.network);
                     appHook.location.value = getValue(appHook.location);
+                    //appHook.sensors.value = getValue(appHook.sensors);
+                    appHook.userTrack.value = getValue(appHook.userTrack);
 
                     //setValue(packageName,(appHook.appLication.value|appHook.network.value|appHook.location.value));
 
@@ -49,7 +53,9 @@ public class mHookModel implements HookModel {
                     set(appHook1.packageName, appHook1.appLication);
                     set(appHook1.packageName, appHook1.network);
                     set(appHook1.packageName, appHook1.location);
-                    setValue(appHook.packageName,(appHook.appLication.value|appHook.network.value|appHook.location.value));
+                    //set(appHook1.packageName, appHook1.sensors);
+                    set(appHook1.packageName, appHook1.userTrack);
+                    setValue(appHook.packageName, (appHook.appLication.value | appHook.network.value | appHook.location.value|appHook1.userTrack.value));
                 });
 
     }
@@ -96,7 +102,7 @@ public class mHookModel implements HookModel {
     }
 
     private void setValue(String packageName, Boolean value) {
-        SPTools.setSharedPreferences(packageName,value);
+        SPTools.setSharedPreferences(packageName, value);
     }
 
 
